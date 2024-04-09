@@ -1,4 +1,4 @@
-const submittedArray = []; 
+const submittedArray = [];
 const submitArray = [];
 let gridCells = []; // Array to store references to all grid cells
 
