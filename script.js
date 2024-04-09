@@ -10,7 +10,7 @@ const wordListElement = document.getElementById('wordList');
 function generateBoggleBoard() {
     const vowels = ['A', 'E', 'I', 'O', 'U'];
     const consonants = ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'];
-    const letterDistribution = [...vowels, ...consonants, ...consonants]; // Customize letter frequencies as needed
+    const letterDistribution = [...vowels,...vowels, ...vowels, ...vowels, ...consonants, ...consonants, ...consonants, ...consonants, ...consonants]; // Vowels:Consonants in a 4:5 Ratio
 
     const board = [];
 
@@ -113,7 +113,7 @@ function submitFailure() {
     //IDK yet
 }
 
-const lettersList = generateRandomLetterArray(numRows, numCols);
+const lettersList = generateBoggleBoard(numRows, numCols);
 
 // Call the function to initially create the grid
 createGrid(lettersList);
