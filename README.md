@@ -9,4 +9,4 @@
 - Very Basic A.I. ()
 
 
-- Word Validation ()
+- Word Validation (john ervin)
