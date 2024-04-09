@@ -1,27 +1,35 @@
-
+const submittedArray = []; 
 const submitArray = [];
+let gridCells = []; // Array to store references to all grid cells
 
 const numRows = 4;
 const numCols = 4;
 
-function generateRandomLetterArray(rows, cols) {
-    const letterArray = [];
+const wordListElement = document.getElementById('wordList');
+
+function generateBoggleBoard() {
+    const vowels = ['A', 'E', 'I', 'O', 'U'];
+    const consonants = ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'];
+    const letterDistribution = [...vowels, ...consonants, ...consonants]; // Customize letter frequencies as needed
+
+    const board = [];
 
     // Loop through each row
-    for (let i = 0; i < rows; i++) {
+    for (let i = 0; i < numRows; i++) {
         const row = [];
 
         // Loop through each column in the current row
-        for (let j = 0; j < cols; j++) {
-            // Generate a random letter (A-Z) using ASCII code
-            const randomLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+        for (let j = 0; j < numCols; j++) {
+            // Generate a random index to select a letter from the distribution
+            const randomIndex = Math.floor(Math.random() * letterDistribution.length);
+            const randomLetter = letterDistribution[randomIndex];
             row.push(randomLetter); // Push the random letter to the current row
         }
 
-        letterArray.push(row); // Push the row to the 2D array
+        board.push(row); // Push the row to the 2D array (board)
     }
 
-    return letterArray;
+    return board;
 }
 
 // Function to create the grid from the letters list
@@ -30,13 +38,14 @@ function createGrid(letters) {
 
     // Clear existing content
     grid.innerHTML = '';
+    gridCells = []; // Reset gridCells array
 
     // Loop through each row in the letters list
-    letters.forEach(rowData => {
+    letters.forEach((rowData, rowIndex) => {
         const row = document.createElement('tr');
 
         // Loop through each letter in the row
-        rowData.forEach(letter => {
+        rowData.forEach((letter, colIndex) => {
             const cell = document.createElement('td');
             const cellContent = document.createElement('div'); // Create a <div> for cell content
             cellContent.textContent = letter; // Set the text content of the <div>
@@ -47,22 +56,61 @@ function createGrid(letters) {
             cellContent.style.display = 'flex';
             cellContent.style.alignItems = 'center';
             cellContent.style.justifyContent = 'center';
+            cellContent.style.backgroundColor = "#E6E6FA";
+
+            // Assign a unique ID to each cell based on its position
+            const cellId = `cell-${rowIndex}-${colIndex}`;
+            cell.setAttribute('id', cellId);
 
             // Add click event listener to each cell
             cell.addEventListener('click', () => {
-                //Preform letter validation here
-                //Must be adjacted to an already clicked letter and not already been clicked.
-                cellContent.style.backgroundColor = "blue";
+                cellContent.style.backgroundColor = "#00CED1";
                 submitArray.push(cell.querySelector('div').textContent);
                 console.log(submitArray);
             });
 
             cell.appendChild(cellContent); // Append the <div> to the cell
             row.appendChild(cell); // Append the cell to the row
+
+            // Store reference to the cell in gridCells array
+            if (!gridCells[rowIndex]) {
+                gridCells[rowIndex] = [];
+            }
+            gridCells[rowIndex][colIndex] = cell;
         });
 
         grid.appendChild(row); // Append the row to the table
     });
+}
+
+function submitWord() {
+    const word = submitArray.join('');
+    //Preform word validation against dictionary here.
+    console.log("Tried to submit ", word);
+
+    //Forced sucess for testing
+    submitSuccess(word);
+
+    // Reset background color of all cells
+    gridCells.forEach(row => {
+        row.forEach(cell => {
+            const cellContent = cell.querySelector('div');
+            cellContent.style.backgroundColor = "#E6E6FA";
+        });
+    });
+
+    // Clear the submitArray
+    submitArray.length = 0;
+}
+
+function submitSuccess(word) {
+    const listItem = document.createElement('li');
+    listItem.textContent = word;
+    wordListElement.appendChild(listItem);
+}
+
+function submitFailure() {
+    //IDK yet
 }
 
 const lettersList = generateRandomLetterArray(numRows, numCols);
