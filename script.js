@@ -202,6 +202,7 @@ function submitWord(gridID) {
             row.forEach(cell => {
                 const cellContent = cell.querySelector('div');
                 cellContent.style.backgroundColor = "#E6E6FA";
+                cell.setAttribute('data-on', false);
             });
         });
     } else if (gridID == 'player2Grid') {
@@ -209,6 +210,7 @@ function submitWord(gridID) {
             row.forEach(cell => {
                 const cellContent = cell.querySelector('div');
                 cellContent.style.backgroundColor = "#E6E6FA";
+                cell.setAttribute('data-on', false);
             });
         });
     }
