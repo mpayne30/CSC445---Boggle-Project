@@ -113,7 +113,11 @@ function submitFailure() {
     //IDK yet
 }
 
-const lettersList = generateBoggleBoard(numRows, numCols);
+function generateBoard() {
+    const lettersList = generateBoggleBoard(numRows, numCols);
 
-// Call the function to initially create the grid
-createGrid(lettersList);
+    // Call the function to initially create the grid
+    createGrid(lettersList);
+}
+
+generateBoard();
