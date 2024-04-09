@@ -3,7 +3,7 @@
 - Game Board (Mark Payne)
 
 
-- Dictionary ()
+- Dictionary (Baker Allard)
 
 
 - Very Basic A.I. ()
