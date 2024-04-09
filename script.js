@@ -188,16 +188,20 @@ function submitWord(gridID) {
     if (gridID=='player1Grid'){
         word = player1ValueStack.join('');
         console.log("Player 1 tried to submit ", word);
+
+
+        //Preform word validation against dictionary here.
+        //Forced sucess for testing
+        submitSuccess(word, gridID);
     } else {
         word = player2ValueStack.join('');
         console.log("Player 2 tried to submit ", word);
+
+
+        //Preform word validation against dictionary here.
+        //Forced sucess for testing
+        submitSuccess(word, gridID);
     }
-
-    //Preform word validation against dictionary here.
-
-    //Forced sucess for testing
-    submitSuccess(word, gridID);
-
 }
 
 function submitSuccess(word, gridID) {
