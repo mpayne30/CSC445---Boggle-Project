@@ -45,6 +45,8 @@ class Stack {
     }
 }
 
+let player1Points;
+let player2Points;
 
 let player1SubmittedArray = [];
 let player2SubmittedArray = [];
@@ -184,8 +186,7 @@ function createGrid(letters, gridID) {
 // fix post stack implimentation
 function submitWord(gridID) {
     let word;
-
-    if (gridID=='player1Grid'){
+    if (gridID=='player1Grid' && player1IDStack.size() > 2){
         word = player1ValueStack.join('');
         console.log("Player 1 tried to submit ", word);
 
@@ -193,7 +194,7 @@ function submitWord(gridID) {
         //Preform word validation against dictionary here.
         //Forced sucess for testing
         submitSuccess(word, gridID);
-    } else {
+    } else if (gridID=='player2Grid' && player2IDStack.size() > 2) {
         word = player2ValueStack.join('');
         console.log("Player 2 tried to submit ", word);
 
@@ -201,11 +202,16 @@ function submitWord(gridID) {
         //Preform word validation against dictionary here.
         //Forced sucess for testing
         submitSuccess(word, gridID);
+    } else {
+        console.log("Failed to submit");
+        alert("Word is too short: failed to submit");
     }
 }
 
 function submitSuccess(word, gridID) {
     if (gridID=='player1Grid'){
+        player1Points += calculateScore(word);
+
         const listItem = document.createElement('li');
         listItem.textContent = word;
         player1WordList.appendChild(listItem);
@@ -223,6 +229,8 @@ function submitSuccess(word, gridID) {
             });
         });
     } else {
+        player2Points += calculateScore(word);
+
         const listItem = document.createElement('li');
         listItem.textContent = word;
         player2WordList.appendChild(listItem);
@@ -242,8 +250,22 @@ function submitSuccess(word, gridID) {
     }
 }
 
-function submitFailure() {
-    //IDK yet
+function calculateScore(word) {
+    const length = word.length;
+
+    if (length >= 3 && length <= 4) {
+        return 1;
+    } else if (length === 5) {
+        return 2;
+    } else if (length === 6) {
+        return 3;
+    } else if (length === 7) {
+        return 5;
+    } else if (length >= 8) {
+        return 11;
+    } else {
+        return 0; // Not in scoring range & should be unreachable
+    }
 }
 
 function generateBoard() {
@@ -256,10 +278,12 @@ function generateBoard() {
     player1SubmittedArray = [];
     player1IDStack.clear();
     player1ValueStack.clear();
+    player1Points = 0;
 
     player2SubmittedArray = [];
     player2IDStack.clear();
     player2ValueStack.clear();
+    player2Points = 0;
 }
 
 // Generates the initial board as the file is opened
