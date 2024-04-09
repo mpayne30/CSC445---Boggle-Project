@@ -6,7 +6,7 @@
 - Dictionary (Baker Allard)
 
 
-- Very Basic A.I. ()
+- Very Basic Brute Force A.I. ()
 
 
 - Word Validation (john ervin)
