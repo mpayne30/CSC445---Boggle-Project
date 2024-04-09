@@ -1,11 +1,17 @@
-const submittedArray = [];
-const submitArray = [];
+const player1SubmittedArray = [];
+const player1SubmitArray = [];
+
+const player2SubmittedArray = [];
+const player2SubmitArray = [];
+
+const player1WordList = document.getElementById('player1WordList');
+const player2WordList = document.getElementById('player2WordList');
+
 let gridCells = []; // Array to store references to all grid cells
 
 const numRows = 4;
 const numCols = 4;
 
-const wordListElement = document.getElementById('wordList');
 
 function generateBoggleBoard() {
     const vowels = ['A', 'E', 'I', 'O', 'U'];
@@ -33,8 +39,8 @@ function generateBoggleBoard() {
 }
 
 // Function to create the grid from the letters list
-function createGrid(letters) {
-    const grid = document.getElementById('grid');
+function createGrid(letters, gridID) {
+    const grid = document.getElementById(gridID);
 
     // Clear existing content
     grid.innerHTML = '';
@@ -83,13 +89,18 @@ function createGrid(letters) {
     });
 }
 
-function submitWord() {
-    const word = submitArray.join('');
+function submitWord(gridID) {
+    if (gridID=="player1Grid"){
+        const word = player1SubmitArrayArray.join('');
+    } else {
+        const word = player2SubmitArrayArray.join('');
+    }
+
     //Preform word validation against dictionary here.
     console.log("Tried to submit ", word);
 
     //Forced sucess for testing
-    submitSuccess(word);
+    submitSuccess(word, gridID);
 
     // Reset background color of all cells
     gridCells.forEach(row => {
@@ -103,10 +114,16 @@ function submitWord() {
     submitArray.length = 0;
 }
 
-function submitSuccess(word) {
-    const listItem = document.createElement('li');
-    listItem.textContent = word;
-    wordListElement.appendChild(listItem);
+function submitSuccess(word, gridID) {
+    if (gridID=="player1Grid"){
+        const listItem = document.createElement('li');
+        listItem.textContent = word;
+        player1WordList.appendChild(listItem);
+    } else {
+        const listItem = document.createElement('li');
+        listItem.textContent = word;
+        player2WordList.appendChild(listItem);
+    }
 }
 
 function submitFailure() {
@@ -117,7 +134,8 @@ function generateBoard() {
     const lettersList = generateBoggleBoard(numRows, numCols);
 
     // Call the function to initially create the grid
-    createGrid(lettersList);
+    createGrid(lettersList, "player1Grid");
+    createGrid(lettersList, "player2Grid");
 }
 
 generateBoard();
