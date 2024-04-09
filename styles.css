@@ -1,0 +1,21 @@
+/* Set the table width to 40% of the viewport width */
+table {
+    width: 40%;
+    border-collapse: collapse;
+}
+
+/* Set the table cells to have a specific aspect ratio */
+td {
+    width: 25%;
+    padding-top: 25%;
+    border: 1px solid black;
+    text-align: center;
+    position: relative;
+}
+
+td div {
+    position: absolute; /* Position the content absolutely within the cell */
+    top: 50%; /* Vertically center the content */
+    left: 50%; /* Horizontally center the content */
+    transform: translate(-50%, -50%); /* Center the content precisely */
+}
