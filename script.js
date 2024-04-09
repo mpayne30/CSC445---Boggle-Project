@@ -3,6 +3,11 @@ class Stack {
         this.items = [];
     }
 
+    // Returns if the stack is empty
+    isEmpty() {
+        return this.items.length === 0;
+    }
+
     // Push an element onto the stack
     push(element) {
         this.items.push(element);
@@ -116,6 +121,8 @@ function createGrid(letters, gridID) {
             cell.setAttribute('id', cellId);
             cell.setAttribute('data-gridID', gridID);
             cell.setAttribute('data-on', false);
+            cell.setAttribute('data-x', colIndex);
+            cell.setAttribute('data-y', rowIndex);
 
             // Add click event listener to each cell
             cell.addEventListener('click', () => {
@@ -191,24 +198,6 @@ function submitWord(gridID) {
     //Forced sucess for testing
     submitSuccess(word, gridID);
 
-    // Reset background color of all cells of the given player grid
-    if (gridID == 'player1Grid') {
-        player1GridCells.forEach(row => {
-            row.forEach(cell => {
-                const cellContent = cell.querySelector('div');
-                cellContent.style.backgroundColor = "#E6E6FA";
-                cell.setAttribute('data-on', false);
-            });
-        });
-    } else if (gridID == 'player2Grid') {
-        player2GridCells.forEach(row => {
-            row.forEach(cell => {
-                const cellContent = cell.querySelector('div');
-                cellContent.style.backgroundColor = "#E6E6FA";
-                cell.setAttribute('data-on', false);
-            });
-        });
-    }
 }
 
 function submitSuccess(word, gridID) {
@@ -220,6 +209,15 @@ function submitSuccess(word, gridID) {
         // Clear the submitArray
         player1IDStack.clear();
         player1ValueStack.clear();
+
+        // Reset background color of all cells of the given player grid
+        player1GridCells.forEach(row => {
+            row.forEach(cell => {
+                const cellContent = cell.querySelector('div');
+                cellContent.style.backgroundColor = "#E6E6FA";
+                cell.setAttribute('data-on', false);
+            });
+        });
     } else {
         const listItem = document.createElement('li');
         listItem.textContent = word;
@@ -228,6 +226,15 @@ function submitSuccess(word, gridID) {
         // Clear the submitArray
         player2IDStack.clear();
         player2ValueStack.clear();
+
+        // Reset background color of all cells of the given player grid
+        player2GridCells.forEach(row => {
+            row.forEach(cell => {
+                const cellContent = cell.querySelector('div');
+                cellContent.style.backgroundColor = "#E6E6FA";
+                cell.setAttribute('data-on', false);
+            });
+        });
     }
 }
 
@@ -251,5 +258,6 @@ function generateBoard() {
     player2ValueStack.clear();
 }
 
+// Generates the initial board as the file is opened
 generateBoard();
 
