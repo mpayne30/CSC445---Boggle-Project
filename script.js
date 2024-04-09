@@ -24,11 +24,6 @@ class Stack {
         return this.items[this.items.length - 1];
     }
 
-    // Check if the stack is empty
-    isEmpty() {
-        return this.items.length === 0;
-    }
-
     // Get the size of the stack
     size() {
         return this.items.length;
@@ -58,8 +53,8 @@ const player2ValueStack = new Stack();
 const player1IDStack = new Stack();
 const player2IDStack = new Stack();
 
-let player1GridCells = []; // Array to store references to all grid cells
-let player2GridCells = []; // Array to store references to all grid cells
+let player1GridCells = []; // Array to store references to all grid cells of player 1
+let player2GridCells = []; // Array to store references to all grid cells of player 2
 
 const numRows = 4;
 const numCols = 4;
