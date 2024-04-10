@@ -29,7 +29,7 @@ td div {
 }
 
 .item1 {
-
+    grid-area: 1 / 2 / span 1 / span 2;
 }
 
 .item2 {
