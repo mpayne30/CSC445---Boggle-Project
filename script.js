@@ -280,7 +280,7 @@ function isAdjacent(cell){
 }
 
 function startTimer(){
-    //Cells should not be clickable when timer is not active
+    //Cells should not be clickable when timer is not active, set to false by default
     timerActive = true;
 
     //Finish later
