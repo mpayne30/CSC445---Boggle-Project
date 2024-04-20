@@ -67,7 +67,7 @@ const numCols = 4;
 let gameMode;
 
 let timerInterval;
-let seconds = 5;
+let seconds = 60;
 
 
 function generateBoggleBoard(initial) {
