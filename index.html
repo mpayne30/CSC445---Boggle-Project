@@ -54,9 +54,10 @@
 
         <dialog id="gameEndDialog">
             <div>
-                <div>{} Wins!</div>
-                <div>Final Scores: {} : {}</div>
-                <button onclick="startGame()">New Game</button>
+                <div id="endOfGameText">{} Wins! / Game Over</div>
+                <div id="endOfGameScore">Final Scores: {} : {} / Score: {}</div>
+                <button id="endOfGameButton" onclick="startGame();">New Game</button>
+                <button id="closeButton" onclick="document.getElementById('gameEndDialog').close()">Close</button>
             </div>
         </dialog>
 

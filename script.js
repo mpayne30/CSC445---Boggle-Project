@@ -66,7 +66,8 @@ const numCols = 4;
 
 let gameMode;
 
-let seconds = 60;
+let timerInterval;
+let seconds = 5;
 
 
 function generateBoggleBoard(initial) {
@@ -287,18 +288,22 @@ function startTimer(){
     dialog.close();
     //Cells should not be clickable when timer is not active, set to false by default
     timerActive = true;
-
-    while (timer !== 0){
-        setInterval(updateTimer, 1000) //Updates timer ever 1000 miliseconds
-    }
-
     timer = seconds;
-    timerActive = false;
+
+    timerInterval = setInterval(updateTimer, 1000) //Updates timer ever 1000 miliseconds
 }
 
 function updateTimer() {
     document.getElementById("timer").textContent = "Seconds Remaing: "+timer;
-    timer--;
+    timer = timer - 1;
+
+    if (timer <= 0){
+        clearInterval(timerInterval);
+        document.getElementById("timer").textContent = "Seconds Remaing: "+timer;
+        timer = seconds;
+        timerActive = false;
+        showTurnEnd();
+    }
 }
 
 function showTurnEnd() {
@@ -306,19 +311,36 @@ function showTurnEnd() {
         document.getElementById("endOfTurnText").textContent = "End of Player 1's Turn";
         document.getElementById("endOfTurnScore").textContent = "Score: "+player1Points;
         document.getElementById("endOfTurnButton").textContent = "Player 2's Turn";
-    } else {
+        const turnDialog = document.getElementById("turnEndDialog");
+        turnDialog.showModal();
+        playerID = "02";
+    } else if (gameMode === "playerVsAI"){
         document.getElementById("endOfTurnText").textContent = "End of Player's Turn"
         document.getElementById("endOfTurnScore").textContent = "Score: "+player1Points;
         document.getElementById("endOfTurnButton").textContent = "Computer's Turn";
+        const turnDialog = document.getElementById("turnEndDialog");
+        turnDialog.showModal();
+        playerID = "Computer";
+    } else {
+        showGameEnd();
+    }
+}
+
+function showGameEnd(){
+    if (gameMode === "twoPlayer"){
+        document.getElementById("endOfGameText").textContent = (player1Points === player2Points) ? "Its a tie!" : (player1Points > player2Points) ? "Player 1 Wins!" : "Player 2 Wins!";
+        document.getElementById("endOfGameScore").textContent = "Scores: "+player1Points+" : "+player2Points;
+    } else if (gameMode === "playerVsAI"){
+        document.getElementById("endOfGameText").textContent = (player1Points === player2Points) ? "Its a tie!" : (player1Points > player2Points) ? "Player Wins!" : "Computer Wins!";
+        document.getElementById("endOfGameScore").textContent = "Scores: "+player1Points+" : "+player2Points;
     }
 
-
-    const dialog = document.getElementById("turnEndDialog");
-    dialog.showModal();
+    const endDialog = document.getElementById("gameEndDialog");
+    endDialog.showModal();
 }
 
 function resetTextBoxes(){
-    document.getElementById("gridAndWordContainer").style.marginTop = "5%";
+    document.getElementById("gridAndWordContainer").style.marginTop = "2.5%";
 
     document.getElementById("singlePlayerScore").textContent = "Score: ";
     document.getElementById("player1").textContent = "Player 1's Score: ";
@@ -336,7 +358,7 @@ function resetTextBoxes(){
 }
 
 function blockAllScoreBoxes() {
-    document.getElementById("gridAndWordContainer").style.marginTop = "10%";
+    document.getElementById("gridAndWordContainer").style.marginTop = "5%";
 
     document.getElementById("singlePlayerScore").style.display = "none";
     document.getElementById("player1").style.display = "none";
@@ -352,15 +374,8 @@ function setGameMode(gm) {
         document.getElementById("player1").style.display = "none";
         document.getElementById("player2").style.display = "none";
 
-        startTimer();
         playerID = "01";
-
-        showTurnEnd();
-
-        //Call that method based on game mode based on button press of turn end screen
-        //startTimer();
-        playerID = "02";
-
+        startTimer();
     } else if (gameMode === "playerVsAI") {
         // Start turn of player 1 after click input, show both score items, show turn end overlay, start AI Player turn.
         console.log("Player Vs. AI");
@@ -369,14 +384,6 @@ function setGameMode(gm) {
 
         startTimer();
         playerID = "01";
-
-        showTurnEnd();
-
-        //Call those methods based on game mode based on button press of turn end screen
-        //startTimer();
-        //startAI();
-        playerID = "Computer";
-
     } else {
         // Start the timer and only display one player score item, dispaly score over lay at the end of timer
         console.log("Single Player");
@@ -384,8 +391,8 @@ function setGameMode(gm) {
         document.getElementById("player2").style.display = "none";
         document.getElementById("AIScore").style.display = "none";
 
-        startTimer();
         playerID = "01";
+        startTimer();
     }
 }
 
