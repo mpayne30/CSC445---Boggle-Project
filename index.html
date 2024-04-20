@@ -9,16 +9,20 @@
     </head>
 
     <body id="body">
-        <label for="gameModeSelector">Choose Gamemode:</label>
 
-        <select name="gameMode" id="gameModeSelector">
-            <option value="singlePlayer">Single Player</option>
-            <option value="twoPlayer">Two Player</option>
-            <option value="playerVsAI">Player vs. Computer</option>
-        </select>
+        <div id="startContainer">
+            <label for="gameModeSelector">Choose Gamemode:</label>
 
-        <button onclick="startGame()">Start Game</button>
+            <select name="gameMode" id="gameModeSelector">
+                <option value="singlePlayer">Single Player</option>
+                <option value="twoPlayer">Two Player</option>
+                <option value="playerVsAI">Player vs. Computer</option>
+            </select>
 
+            <button onclick="startGame()">Start Game</button>
+
+            <div id="timer">Seconds Remaining: </div>
+        </div>
         <div id="playerScoresContainer">
             <div id="singlePlayerScore" class="score player1Score">Score: </div>
             <div id="player1" class="score player1Score">Player 1's Score: </div>
@@ -39,6 +43,22 @@
         </div>
 
         <button id="submitButton" onclick="submitWord()">Submit</button>
+
+        <dialog id="turnEndDialog">
+            <div>
+                <div id="endOfTurnText">End of {} Turn</div>
+                <div id="endOfTurnScore">Score: {}</div>
+                <button id="endOfTurnButton" onclick="startTimer();">Next Players Turn</button>
+            </div>
+        </dialog>
+
+        <dialog id="gameEndDialog">
+            <div>
+                <div>{} Wins!</div>
+                <div>Final Scores: {} : {}</div>
+                <button onclick="startGame()">New Game</button>
+            </div>
+        </dialog>
 
         <script src="script.js"></script>
     </body>

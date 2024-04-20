@@ -66,6 +66,8 @@ const numCols = 4;
 
 let gameMode;
 
+let seconds = 60;
+
 
 function generateBoggleBoard(initial) {
     const vowels = ['A', 'E', 'I', 'O', 'U'];
@@ -280,14 +282,39 @@ function isAdjacent(cell){
 }
 
 function startTimer(){
+    //Closes popup (should only matter at turn end and start of a new game after another just finished)
+    const dialog = document.getElementById("turnEndDialog");
+    dialog.close();
     //Cells should not be clickable when timer is not active, set to false by default
     timerActive = true;
 
-    //Finish later
+    while (timer !== 0){
+        setInterval(updateTimer, 1000) //Updates timer ever 1000 miliseconds
+    }
+
+    timer = seconds;
+    timerActive = false;
+}
+
+function updateTimer() {
+    document.getElementById("timer").textContent = "Seconds Remaing: "+timer;
+    timer--;
 }
 
 function showTurnEnd() {
-    //finish later
+    if (gameMode === "twoPlayer"){
+        document.getElementById("endOfTurnText").textContent = "End of Player 1's Turn";
+        document.getElementById("endOfTurnScore").textContent = "Score: "+player1Points;
+        document.getElementById("endOfTurnButton").textContent = "Player 2's Turn";
+    } else {
+        document.getElementById("endOfTurnText").textContent = "End of Player's Turn"
+        document.getElementById("endOfTurnScore").textContent = "Score: "+player1Points;
+        document.getElementById("endOfTurnButton").textContent = "Computer's Turn";
+    }
+
+
+    const dialog = document.getElementById("turnEndDialog");
+    dialog.showModal();
 }
 
 function resetTextBoxes(){
@@ -317,8 +344,8 @@ function blockAllScoreBoxes() {
     document.getElementById("AIScore").style.display = "none";
 }
 
-function setGameMode(gameMode) {
-    this.gameMode = gameMode;
+function setGameMode(gm) {
+    gameMode = gm;
     if (gameMode === "twoPlayer") {
         // Start turn of player 1 after click input, show both score items, show turn end overlay, start player 2 turn, and dispaly score overlay at the end of the time.
         console.log("Player Vs. Player");
@@ -348,7 +375,7 @@ function setGameMode(gameMode) {
         //Call those methods based on game mode based on button press of turn end screen
         //startTimer();
         //startAI();
-        playerID = "AI";
+        playerID = "Computer";
 
     } else {
         // Start the timer and only display one player score item, dispaly score over lay at the end of timer

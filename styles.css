@@ -24,12 +24,48 @@ td div {
     transform: translate(-50%, -50%); /* Center the content precisely */
 }
 
+/*https://youtu.be/t_GuuhNNcNQ?si=Linebh24vtKwOjfJ*/
+dialog {
+    width: 30%;
+    height: 25vh;
+    font-size: 20pt;
+    align-content: center;
+    text-align: center;
+}
+
+dialog::backdrop {
+    background-color: gray;
+    opacity: 0.5;
+}
+
+dialog button {
+    width: 40%;
+    height: 5vh;
+}
+
 .gridContainer {
     display: grid;
     grid-template-columns: auto auto auto auto auto auto;
     gap: 10px;
     background-color: #2196F3;
     padding: 10px;
+}
+
+#startContainer {
+    font-size: 25pt;
+    display: flex;
+}
+
+#startContainer select{
+    font-size: 20pt;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+#startContainer button{
+    font-size: 20pt;
+    margin-left: 2%;
+    margin-right: 2%;
 }
 
 #playerScoresContainer {
@@ -57,9 +93,9 @@ td div {
 }
 
 #currentWordContainer {
-    margin-top: 1%;
+    margin-top: 2%;
     margin-left: 5%;
-    margin-bottom: 5%;
+    margin-bottom: 2%;
     background-color: lightcyan;
     width: 28.5%;
     height: 5vh;
