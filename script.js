@@ -45,51 +45,63 @@ class Stack {
     }
 }
 
-let player1Points;
-let player2Points;
+let playerID;
 
-let player1SubmittedArray = [];
-let player2SubmittedArray = [];
+let player1Points = 0;
+let player2Points  = 0;
 
-let player1WordList = document.getElementById('player1WordList');
-let player2WordList = document.getElementById('player2WordList');
+let submitArray = [];
 
-const player1ValueStack = new Stack();
-const player2ValueStack = new Stack();
+let wordList = document.getElementById('wordList');
 
-const player1IDStack = new Stack();
-const player2IDStack = new Stack();
+const currentWordID = new Stack();
+const currentWordContent = new Stack();
 
-let player1GridCells = []; // Array to store references to all grid cells of player 1
-let player2GridCells = []; // Array to store references to all grid cells of player 2
+let gridCells = []; // Array to store references to all grid cells of player 1
 
 const numRows = 4;
 const numCols = 4;
 
+let gameMode;
 
-function generateBoggleBoard() {
+
+function generateBoggleBoard(initial) {
     const vowels = ['A', 'E', 'I', 'O', 'U'];
     const consonants = ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'];
+
+    //This const was gotten from chat gpt for letter distribution.
     const letterDistribution = [...vowels,...vowels, ...vowels, ...vowels, ...consonants, ...consonants, ...consonants, ...consonants, ...consonants]; // Vowels:Consonants in a 4:5 Ratio
 
     const board = [];
 
     // Loop through each row
-    for (let i = 0; i < numRows; i++) {
-        const row = [];
+    if (initial === true){
+        for (let i = 0; i < numRows; i++) {
+            const row = [];
 
-        // Loop through each column in the current row
-        for (let j = 0; j < numCols; j++) {
-            // Generate a random index to select a letter from the distribution
-            const randomIndex = Math.floor(Math.random() * letterDistribution.length);
-            const randomLetter = letterDistribution[randomIndex];
-            row.push(randomLetter); // Push the random letter to the current row
+            // Loop through each column in the current row
+            for (let j = 0; j < numCols; j++) {
+                // Generate a random index to select a letter from the distribution
+                const randomIndex = Math.floor(Math.random() * letterDistribution.length);
+                const randomLetter = letterDistribution[randomIndex];
+                row.push(randomLetter); // Push the random letter to the current row
+            }
+
+            board.push(row); // Push the row to the 2D array (board)
         }
+    } else {
+        for (let i = 0; i < numRows; i++) {
+            const row = [];
 
-        board.push(row); // Push the row to the 2D array (board)
+            // Loop through each column in the current row
+            for (let j = 0; j < numCols; j++) {
+                row.push(""); // Push empty string
+            }
+
+            board.push(row); // Push the row to the 2D array (board)
+        }
     }
-
-    return board;
+    createGrid(board, "grid")
 }
 
 // Function to create the grid from the letters list
@@ -107,7 +119,7 @@ function createGrid(letters, gridID) {
         // Loop through each letter in the row
         rowData.forEach((letter, colIndex) => {
             const cell = document.createElement('td');
-            const cellContent = document.createElement('div'); // Create a <div> for cell content
+            const cellContent = document.createElement('div'); // Create a <div> for cell content, acessible through cell.querySelector('div')
             cellContent.textContent = letter; // Set the text content of the <div>
 
             // Add styles to the cell content <div>
@@ -126,57 +138,35 @@ function createGrid(letters, gridID) {
             cell.setAttribute('data-x', colIndex);
             cell.setAttribute('data-y', rowIndex);
 
-            // Add click event listener to each cell
+            // Click listener
             cell.addEventListener('click', () => {
                 const gridID = cell.getAttribute('data-gridID'); // Get the grid ID from the clicked cell
                 const cellContent = cell.querySelector('div');
-
-                if (gridID === 'player1Grid') {
-                    if (cell.getAttribute('data-on') !== 'true') {
+                    if (cell.getAttribute('data-on') !== 'true' && isAdjacent(gridID)) {
                         cellContent.style.backgroundColor = "#00CED1";
                         cell.setAttribute('data-on', 'true');
 
-                        player1IDStack.push(cell.id);
-                        player1ValueStack.push(cellContent.textContent);
-                    } else if (cell.getAttribute('data-on') === 'true' && cell.id === player1IDStack.peek()) {
+                        //document.getElementById("currentWord").set("Current Word: "+currentWordContent.join());
+
+                        currentWordID.push(cell);
+                        currentWordContent.push(cellContent.textContent);
+                    } else if (cell.getAttribute('data-on') === 'true' && cell.id === currentWordID.peek().id) {
                         cell.setAttribute('data-on', 'false');
                         cellContent.style.backgroundColor = "#E6E6FA";
 
-                        player1IDStack.pop();
-                        player1ValueStack.pop();
+                        currentWordID.pop();
+                        currentWordContent.pop();
                     }
-                } else {
-                    if (cell.getAttribute('data-on') !== 'true') {
-                        cellContent.style.backgroundColor = "#00CED1";
-                        cell.setAttribute('data-on', 'true');
-
-                        player2IDStack.push(cell.id);
-                        player2ValueStack.push(cellContent.textContent);
-                    } else if (cell.getAttribute('data-on') === 'true' && cell.id === player2IDStack.peek()) {
-                        cell.setAttribute('data-on', 'false');
-                        cellContent.style.backgroundColor = "#E6E6FA";
-
-                        player2IDStack.pop();
-                        player2ValueStack.pop();
-                    }
-                }
             });
 
             cell.appendChild(cellContent); // Append the <div> to the cell
             row.appendChild(cell); // Append the cell to the row
 
             // Store reference to the cell in gridCells array
-            if (gridID == 'player1Grid') {
-                if (!player1GridCells[rowIndex]) {
-                    player1GridCells[rowIndex] = [];
+                if (!gridCells[rowIndex]) {
+                    gridCells[rowIndex] = [];
                 }
-                player1GridCells[rowIndex][colIndex] = cell;
-            } else {
-                if (!player2GridCells[rowIndex]) {
-                    player2GridCells[rowIndex] = [];
-                }
-                player2GridCells[rowIndex][colIndex] = cell;
-            }
+                gridCells[rowIndex][colIndex] = cell;
         });
 
         grid.appendChild(row); // Append the row to the table
@@ -185,71 +175,59 @@ function createGrid(letters, gridID) {
 
 // fix post stack implimentation
 function submitWord(gridID) {
-    let word;
-    if (gridID=='player1Grid' && player1IDStack.size() > 2){
-        word = player1ValueStack.join('');
-        console.log("Player 1 tried to submit ", word);
+    let word = currentWordContent.join();
 
+    if (currentWordID.size() > 2){
+        if (wordValidation(word, gridID)){
+            //Get current players id, update appropriate score, reset board state.
+            if (playerId = '01'){
+                player1Points += calculateScore(word);
+                document.querySelectorAll('.player1Score').forEach(element => {
+                    if (gameMode = "singlePlayer")
+                    element.textContent = "Score: ".concat(player1Points);
+                    else if (gameMode = "") {
+                        element.textContent = "Player One's Score: " + player1Points;
+                    }
+                });
+            } else {
+                player2Points += calculateScore(word);
+            }
 
-        //Preform word validation against dictionary here.
-        //Forced sucess for testing
-        submitSuccess(word, gridID);
-    } else if (gridID=='player2Grid' && player2IDStack.size() > 2) {
-        word = player2ValueStack.join('');
-        console.log("Player 2 tried to submit ", word);
+            // Add valid submitted word to word list.
+            const listItem = document.createElement('li');
+            listItem.textContent = word;
+            wordList.appendChild(listItem);
 
+            // Clear the submitArray
+            currentWordID.clear();
+            currentWordContent.clear();
 
-        //Preform word validation against dictionary here.
-        //Forced sucess for testing
-        submitSuccess(word, gridID);
+            // Reset background color of all cells of the given player grid
+            gridCells.forEach(row => {
+                row.forEach(cell => {
+                    const cellContent = cell.querySelector('div');
+                    cellContent.style.backgroundColor = "#E6E6FA";
+                    cell.setAttribute('data-on', false);
+                });
+            });
+        } else {
+            console.log("Failed to submit");
+        alert("Word is not valid: failed to submit");
+        }
     } else {
         console.log("Failed to submit");
         alert("Word is too short: failed to submit");
     }
 }
 
-function submitSuccess(word, gridID) {
-    if (gridID=='player1Grid'){
-        player1Points += calculateScore(word);
+function wordValidation(word, gridID) {
+    // Word validation
 
-        const listItem = document.createElement('li');
-        listItem.textContent = word;
-        player1WordList.appendChild(listItem);
-
-        // Clear the submitArray
-        player1IDStack.clear();
-        player1ValueStack.clear();
-
-        // Reset background color of all cells of the given player grid
-        player1GridCells.forEach(row => {
-            row.forEach(cell => {
-                const cellContent = cell.querySelector('div');
-                cellContent.style.backgroundColor = "#E6E6FA";
-                cell.setAttribute('data-on', false);
-            });
-        });
-    } else {
-        player2Points += calculateScore(word);
-
-        const listItem = document.createElement('li');
-        listItem.textContent = word;
-        player2WordList.appendChild(listItem);
-
-        // Clear the submitArray
-        player2IDStack.clear();
-        player2ValueStack.clear();
-
-        // Reset background color of all cells of the given player grid
-        player2GridCells.forEach(row => {
-            row.forEach(cell => {
-                const cellContent = cell.querySelector('div');
-                cellContent.style.backgroundColor = "#E6E6FA";
-                cell.setAttribute('data-on', false);
-            });
-        });
-    }
+    //Temp forced validation
+    return true;
 }
 
+// Call after validity check called on word submit
 function calculateScore(word) {
     const length = word.length;
 
@@ -268,24 +246,37 @@ function calculateScore(word) {
     }
 }
 
-function generateBoard() {
-    const lettersList = generateBoggleBoard(numRows, numCols);
-
-    // Call the function to initially create the grid
-    createGrid(lettersList, 'player1Grid');
-    createGrid(lettersList, 'player2Grid');
-
-    player1SubmittedArray = [];
-    player1IDStack.clear();
-    player1ValueStack.clear();
-    player1Points = 0;
-
-    player2SubmittedArray = [];
-    player2IDStack.clear();
-    player2ValueStack.clear();
-    player2Points = 0;
+//Unfinished
+function isAdjacent(cell){
+    if (currentWordID.isEmpty()){
+        return true;
+    } else {
+        return true;
+    }
 }
 
-// Generates the initial board as the file is opened
-generateBoard();
+function setGameMode(gameMode) {
+    this.gameMode = gameMode;
+    console.log(this.gameMode);
+    if (gameMode === "twoPlayer") {
+        // Start turn of player 1 after click input, show both score items, show turn end overlay, start player 2 turn, and dispaly score overlay at the end of the time.
+        console.log("Player Vs. Player");
+        console.log("Player 1 turn begin");
+    } else if (gameMode === "playerVsAI") {
+        //
+        console.log("Player Vs. AI");
+        console.log("Player's turn begin");
+    } else {
+        // Start the timer and only display one player score item, dispaly score over lay at the end of timer
+        console.log("Single Player");
+        console.log("Turn Begin");
+    }
+}
 
+generateBoggleBoard(false);
+
+function startGame() {
+    resetTextBoxes();
+    generateBoggleBoard(true);
+    setGameMode(document.getElementById("gameModeSelector").value);
+}

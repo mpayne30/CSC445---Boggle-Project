@@ -1,6 +1,10 @@
+#body {
+    background-color: lightyellow;
+}
+
 /* Set the table width to 40% of the viewport width */
 table {
-    width: 25%;
+    width: 30%;
     border-collapse: collapse;
 }
 
@@ -28,47 +32,57 @@ td div {
     padding: 10px;
 }
 
-/* start row, start column, span rows, span columns */
-.item1 {
-    grid-area: 1 / 2 / span 1 / span 2;
+#playerScoresContainer {
+    margin-left: 5%;
+    margin-top: 5%;
+    margin-bottom: 1%;
+    width: 62.2%;
+    display: flex;
+    flex-direction: auto;
 }
 
-.item2 {
-
+#gridAndWordContainer {
+    margin-left: 5%;
+    display: flex;
+    flex-direction: auto;
 }
 
-.item3 {
-
+#currentWordContainer {
+    margin-top: 1%;
+    margin-left: 5%;
+    margin-bottom: 5%;
+    background-color: lightcyan;
+    width: 28.5%;
+    height: 5vh;
+    border: 2px solid black;
+    border-radius: 10px;
+    font-size: 22pt;
+    align-content: center;
 }
 
-.item4 {
-
+.score {
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 35%;
+    height: 5vh;
+    font-size: 18pt;
+    align-content: center;
+    margin: 0.5%;
 }
 
-.item5 {
-
+.player1Score {
+    background-color: lightgreen;
 }
 
-.item6 {
-
+.player2Score {
+    background-color: lightcoral;
 }
 
-.item7 {
-
-}
-
-.item8 {
-
-}
-
-.item9 {
-
-}
-
-.item10 {
-
-}
-
-.item11 {
-
+#wordList {
+    background-color: lightgray;
+    width: 25%;
+    height: 45vh;
+    border: 2px solid black;
+    border-radius: 10px;
+    margin-left: 10%;
 }

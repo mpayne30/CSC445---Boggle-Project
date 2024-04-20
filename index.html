@@ -8,29 +8,34 @@
         <link rel="stylesheet" href="styles.css"> <!-- CSS File -->
     </head>
 
-    <body>
-        <div class="gridContainer">
-            <div class="item1">Timer</div>
-            <div class="item2">Start</div>
-            <div class="item3">Player/ A.I. selection drop down</div>
-            <div class="item4">Player 1 grid</div>
-            <div class="item5">Player 2 grid</div>
-            <div class="item6">Player 1 word list</div>
-            <div class="item7">Player 2 word list</div>
-            <div class="item8">Player 1 active string</div>
-            <div class="item9">Player 2 active string</div>
-            <div class="item10">Player 1 submit</div>
-            <div class="item11">Player 2 submit</div>
+    <body id="body">
+        <label for="gameMode">Choose Gamemode:</label>
 
+        <select name="gameMode" id="gameModeSelector">
+            <option value="singlePlayer">Single Player</option>
+            <option value="twoPlayer">Two Player</option>
+            <option value="playerVsAI">Player vs. Computer</option>
+        </select>
+
+        <button onclick="startGame()">Start Game</button>
+
+        <div id="playerScoresContainer">
+            <div id="singlePlayerScore" class="score player1Score">Score: </div>
+            <div id="player1" class="score player1Score">Player 1's Score: </div>
+            <div id="player2" class="score player2Score">Player 2's Score: </div>
+            <div id="AIScore" class="score player2Score">Computer's Score: </div>
         </div>
-        <button onclick="generateBoard()">Generate New Board</button>
-        <table id="player1Grid"></table>
-        <button onclick="submitWord('player1Grid')">Submit Player 1</button>
-        <div id="player1WordList"></div>
 
-        <table id="player2Grid"></table>
-        <button onclick="submitWord('player2Grid')">Submit Player 2</button>
-        <div id="player2WordList"></div>
+        <div id="gridAndWordContainer">
+            <table id="grid"></table>
+            <div id="wordList">word</div>
+        </div>
+
+        <div id="currentWordContainer">
+            <div>Current Word: </div>
+        </div>
+
+        <button onclick="submitWord()">Submit</button>
 
         <script src="script.js"></script>
     </body>
