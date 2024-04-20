@@ -146,16 +146,18 @@ function createGrid(letters, gridID) {
                         cellContent.style.backgroundColor = "#00CED1";
                         cell.setAttribute('data-on', 'true');
 
-                        //document.getElementById("currentWord").set("Current Word: "+currentWordContent.join());
-
                         currentWordID.push(cell);
                         currentWordContent.push(cellContent.textContent);
+
+                        document.getElementById("currentWord").textContent = ("Current Word: "+currentWordContent.join());
                     } else if (cell.getAttribute('data-on') === 'true' && cell.id === currentWordID.peek().id) {
                         cell.setAttribute('data-on', 'false');
                         cellContent.style.backgroundColor = "#E6E6FA";
 
                         currentWordID.pop();
                         currentWordContent.pop();
+
+                        document.getElementById("currentWord").textContent = ("Current Word: "+currentWordContent.join());
                     }
             });
 
@@ -185,12 +187,17 @@ function submitWord(gridID) {
                 document.querySelectorAll('.player1Score').forEach(element => {
                     if (gameMode = "singlePlayer")
                     element.textContent = "Score: ".concat(player1Points);
-                    else if (gameMode = "") {
+                    else if (gameMode = "twoPlayer") {
                         element.textContent = "Player One's Score: " + player1Points;
                     }
                 });
             } else {
                 player2Points += calculateScore(word);
+                if (gameMode = "twoPlayer")
+                    element.textContent = "Player Two's Score: ".concat(player2Points);
+                else if (gameMode = "playerVsAI") {
+                    element.textContent = "Computer's Score: " + player2Points;
+                }
             }
 
             // Add valid submitted word to word list.
@@ -201,6 +208,9 @@ function submitWord(gridID) {
             // Clear the submitArray
             currentWordID.clear();
             currentWordContent.clear();
+
+            // Reset text box
+            document.getElementById("currentWord").textContent = "Current Word: ";
 
             // Reset background color of all cells of the given player grid
             gridCells.forEach(row => {
@@ -255,24 +265,56 @@ function isAdjacent(cell){
     }
 }
 
+function resetTextBoxes(){
+    document.getElementById("gridAndWordContainer").style.marginTop = "5%";
+
+    document.getElementById("singlePlayerScore").textContent = "Score: ";
+    document.getElementById("player1").textContent = "Player 1's Score: ";
+    document.getElementById("player2").textContent = "Player 2's Score: ";
+    document.getElementById("AIScore").textContent = "Computer's Score: ";
+    document.getElementById("currentWord").textContent = "Current Word: ";
+    document.getElementById("wordList").textContent = "";
+
+    document.getElementById("singlePlayerScore").style.display = "";
+    document.getElementById("player1").style.display = "";
+    document.getElementById("player2").style.display = "";
+    document.getElementById("AIScore").style.display = "";
+    document.getElementById("currentWord").style.display = "";
+    document.getElementById("wordList").style.display = "";
+}
+
+function blockAllScoreBoxes() {
+    document.getElementById("gridAndWordContainer").style.marginTop = "10%";
+
+    document.getElementById("singlePlayerScore").style.display = "none";
+    document.getElementById("player1").style.display = "none";
+    document.getElementById("player2").style.display = "none";
+    document.getElementById("AIScore").style.display = "none";
+}
+
 function setGameMode(gameMode) {
     this.gameMode = gameMode;
     console.log(this.gameMode);
     if (gameMode === "twoPlayer") {
         // Start turn of player 1 after click input, show both score items, show turn end overlay, start player 2 turn, and dispaly score overlay at the end of the time.
         console.log("Player Vs. Player");
-        console.log("Player 1 turn begin");
+        document.getElementById("player1").style.display = "none";
+        document.getElementById("player2").style.display = "none";
     } else if (gameMode === "playerVsAI") {
         //
         console.log("Player Vs. AI");
-        console.log("Player's turn begin");
+        document.getElementById("singlePlayerScore").style.display = "none";
+        document.getElementById("player2").style.display = "none";
     } else {
         // Start the timer and only display one player score item, dispaly score over lay at the end of timer
         console.log("Single Player");
-        console.log("Turn Begin");
+        document.getElementById("player1").style.display = "none";
+        document.getElementById("player2").style.display = "none";
+        document.getElementById("AIScore").style.display = "none";
     }
 }
 
+blockAllScoreBoxes();
 generateBoggleBoard(false);
 
 function startGame() {

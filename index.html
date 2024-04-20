@@ -28,14 +28,17 @@
 
         <div id="gridAndWordContainer">
             <table id="grid"></table>
-            <div id="wordList">word</div>
+            <div id="wordListContainer">
+                <div style="text-align: center; font-size: 16pt;">Word List:</div>
+                <div id="wordList"></div>
+            </div>
         </div>
 
         <div id="currentWordContainer">
-            <div>Current Word: </div>
+            <div id="currentWord">Current Word: </div>
         </div>
 
-        <button onclick="submitWord()">Submit</button>
+        <button id="submitButton" onclick="submitWord()">Submit</button>
 
         <script src="script.js"></script>
     </body>

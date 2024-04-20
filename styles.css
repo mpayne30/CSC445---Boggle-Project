@@ -34,7 +34,7 @@ td div {
 
 #playerScoresContainer {
     margin-left: 5%;
-    margin-top: 5%;
+    margin-top: 0%;
     margin-bottom: 1%;
     width: 62.2%;
     display: flex;
@@ -45,6 +45,15 @@ td div {
     margin-left: 5%;
     display: flex;
     flex-direction: auto;
+}
+
+#wordListContainer {
+    background-color: lightgray;
+    width: 25%;
+    height: 45vh;
+    border: 2px solid black;
+    border-radius: 10px;
+    margin-left: 10%;
 }
 
 #currentWordContainer {
@@ -60,6 +69,16 @@ td div {
     align-content: center;
 }
 
+#wordList {
+    margin-left: 5%;
+}
+
+#submitButton {
+    width: 5%;
+    height: 5vh;
+    margin-left: 15%;
+}
+
 .score {
     border: 2px solid black;
     border-radius: 10px;
@@ -68,6 +87,7 @@ td div {
     font-size: 18pt;
     align-content: center;
     margin: 0.5%;
+    margin-top: 5%;
 }
 
 .player1Score {
@@ -76,13 +96,4 @@ td div {
 
 .player2Score {
     background-color: lightcoral;
-}
-
-#wordList {
-    background-color: lightgray;
-    width: 25%;
-    height: 45vh;
-    border: 2px solid black;
-    border-radius: 10px;
-    margin-left: 10%;
 }
