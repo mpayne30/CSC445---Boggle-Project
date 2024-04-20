@@ -45,6 +45,8 @@ class Stack {
     }
 }
 
+let timerActive = false;
+
 let playerID;
 
 let player1Points = 0;
@@ -140,9 +142,9 @@ function createGrid(letters, gridID) {
 
             // Click listener
             cell.addEventListener('click', () => {
-                const gridID = cell.getAttribute('data-gridID'); // Get the grid ID from the clicked cell
+                const cellID = cell.getAttribute('data-gridID');
                 const cellContent = cell.querySelector('div');
-                    if (cell.getAttribute('data-on') !== 'true' && isAdjacent(gridID)) {
+                    if (cell.getAttribute('data-on') !== 'true' && isAdjacent(cell)) {
                         cellContent.style.backgroundColor = "#00CED1";
                         cell.setAttribute('data-on', 'true');
 
@@ -230,10 +232,10 @@ function submitWord(gridID) {
     }
 }
 
-function wordValidation(word, gridID) {
-    // Word validation
+function wordValidation(word) {
+    // John: Word validation
 
-    //Temp forced validation
+    //Temp forced validation for testing
     return true;
 }
 
@@ -257,12 +259,20 @@ function calculateScore(word) {
 }
 
 //Unfinished
-function isAdjacent(cell){
+function isAdjacent(cellID){
+    //If no cells are selected allows it to be clicked
     if (currentWordID.isEmpty()){
         return true;
-    } else {
+    } else if (Math.abs(gridCells[cellID].getAttribute('data-x') - gridCells[currentWordID[currentWordID.length-1]].getAttribute('data-x')) <= 1 && Math.abs(gridCells[cellID].getAttribute('data-y') - gridCells[currentWordID[currentWordID.length-1]].getAttribute('data-y')) <= 1){
         return true;
+    } else {
+        return false;
     }
+}
+
+function startTimer(){
+    timerActive = true;
+    //Finish later
 }
 
 function resetTextBoxes(){
@@ -300,17 +310,41 @@ function setGameMode(gameMode) {
         console.log("Player Vs. Player");
         document.getElementById("player1").style.display = "none";
         document.getElementById("player2").style.display = "none";
+
+        startTimer();
+        playerID = "01";
+
+        showTurnEnd();
+
+        //Call that method based on game mode based on button press of turn end screen
+        //startTimer();
+        playerID = "02";
+
     } else if (gameMode === "playerVsAI") {
-        //
+        // Start turn of player 1 after click input, show both score items, show turn end overlay, start AI Player turn.
         console.log("Player Vs. AI");
         document.getElementById("singlePlayerScore").style.display = "none";
         document.getElementById("player2").style.display = "none";
+
+        startTimer();
+        playerID = "01";
+
+        showTurnEnd();
+
+        //Call those methods based on game mode based on button press of turn end screen
+        //startTimer();
+        //startAI();
+        playerID = "AI";
+
     } else {
         // Start the timer and only display one player score item, dispaly score over lay at the end of timer
         console.log("Single Player");
         document.getElementById("player1").style.display = "none";
         document.getElementById("player2").style.display = "none";
         document.getElementById("AIScore").style.display = "none";
+
+        startTimer();
+        playerID = "01";
     }
 }
 
