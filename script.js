@@ -260,7 +260,6 @@ function calculateScore(word) {
     }
 }
 
-//Unfinished
 function isAdjacent(cell){
     //If current word is empty any cell is able to be clicked
     if (currentWordID.isEmpty()){
@@ -302,7 +301,11 @@ function updateTimer() {
         document.getElementById("timer").textContent = "Seconds Remaing: "+timer;
         timer = seconds;
         timerActive = false;
-        showTurnEnd();
+        if (playerID === "01"){
+            showTurnEnd();
+        } else {
+            showGameEnd();
+        }
     }
 }
 
