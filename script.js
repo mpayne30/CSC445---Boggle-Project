@@ -142,9 +142,8 @@ function createGrid(letters, gridID) {
 
             // Click listener
             cell.addEventListener('click', () => {
-                const cellID = cell.getAttribute('data-gridID');
                 const cellContent = cell.querySelector('div');
-                    if (cell.getAttribute('data-on') !== 'true' && isAdjacent(cell)) {
+                    if (cell.getAttribute('data-on') !== 'true' && isAdjacent(cell) && timerActive) {
                         cellContent.style.backgroundColor = "#00CED1";
                         cell.setAttribute('data-on', 'true');
 
@@ -152,7 +151,7 @@ function createGrid(letters, gridID) {
                         currentWordContent.push(cellContent.textContent);
 
                         document.getElementById("currentWord").textContent = ("Current Word: "+currentWordContent.join());
-                    } else if (cell.getAttribute('data-on') === 'true' && cell.id === currentWordID.peek().id) {
+                    } else if (cell.getAttribute('data-on') === 'true' && cell.id === currentWordID.peek().id && timerActive) {
                         cell.setAttribute('data-on', 'false');
                         cellContent.style.backgroundColor = "#E6E6FA";
 
@@ -259,11 +258,21 @@ function calculateScore(word) {
 }
 
 //Unfinished
-function isAdjacent(cellID){
-    //If no cells are selected allows it to be clicked
+function isAdjacent(cell){
+    //If current word is empty any cell is able to be clicked
     if (currentWordID.isEmpty()){
         return true;
-    } else if (Math.abs(gridCells[cellID].getAttribute('data-x') - gridCells[currentWordID[currentWordID.length-1]].getAttribute('data-x')) <= 1 && Math.abs(gridCells[cellID].getAttribute('data-y') - gridCells[currentWordID[currentWordID.length-1]].getAttribute('data-y')) <= 1){
+    }
+
+    const x = parseInt(cell.getAttribute('data-x'));
+    const y = parseInt(cell.getAttribute('data-y'));
+
+    const lastCell = currentWordID.peek();
+    const lastX = parseInt(lastCell.getAttribute('data-x'));
+    const lastY = parseInt(lastCell.getAttribute('data-y'));
+
+    // Check if the clicked cell is adjacent to the last clicked cell
+    if (Math.abs(x - lastX) <= 1 && Math.abs(y - lastY) <= 1) {
         return true;
     } else {
         return false;
@@ -271,8 +280,14 @@ function isAdjacent(cellID){
 }
 
 function startTimer(){
+    //Cells should not be clickable when timer is not active
     timerActive = true;
+
     //Finish later
+}
+
+function showTurnEnd() {
+    //finish later
 }
 
 function resetTextBoxes(){
@@ -304,7 +319,6 @@ function blockAllScoreBoxes() {
 
 function setGameMode(gameMode) {
     this.gameMode = gameMode;
-    console.log(this.gameMode);
     if (gameMode === "twoPlayer") {
         // Start turn of player 1 after click input, show both score items, show turn end overlay, start player 2 turn, and dispaly score overlay at the end of the time.
         console.log("Player Vs. Player");
