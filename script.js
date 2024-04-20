@@ -301,6 +301,8 @@ function updateTimer() {
         document.getElementById("timer").textContent = "Seconds Remaing: "+timer;
         timer = seconds;
         timerActive = false;
+
+        //Since playerID changes at turn end this check allows me to see if it is the first or second turn of a game instance.
         if (playerID === "01"){
             showTurnEnd();
         } else {
@@ -336,8 +338,9 @@ function showGameEnd(){
     } else if (gameMode === "playerVsAI"){
         document.getElementById("endOfGameText").textContent = (player1Points === player2Points) ? "Its a tie!" : (player1Points > player2Points) ? "Player Wins!" : "Computer Wins!";
         document.getElementById("endOfGameScore").textContent = "Scores: "+player1Points+" : "+player2Points;
+    } else {
+        document.getElementById("endOfGameScore").textContent = "Score: "+player1Points;
     }
-
     const endDialog = document.getElementById("gameEndDialog");
     endDialog.showModal();
 }
@@ -374,8 +377,8 @@ function setGameMode(gm) {
     if (gameMode === "twoPlayer") {
         // Start turn of player 1 after click input, show both score items, show turn end overlay, start player 2 turn, and dispaly score overlay at the end of the time.
         console.log("Player Vs. Player");
-        document.getElementById("player1").style.display = "none";
-        document.getElementById("player2").style.display = "none";
+        document.getElementById("singlePlayerScore").style.display = "none";
+        document.getElementById("AIScore").style.display = "none";
 
         playerID = "01";
         startTimer();
@@ -385,8 +388,8 @@ function setGameMode(gm) {
         document.getElementById("singlePlayerScore").style.display = "none";
         document.getElementById("player2").style.display = "none";
 
-        startTimer();
         playerID = "01";
+        startTimer();
     } else {
         // Start the timer and only display one player score item, dispaly score over lay at the end of timer
         console.log("Single Player");
@@ -403,6 +406,9 @@ blockAllScoreBoxes();
 generateBoggleBoard(false);
 
 function startGame() {
+    document.getElementById("turnEndDialog").close();
+    document.getElementById("gameEndDialog").close();
+    clearInterval(timerInterval);
     resetTextBoxes();
     generateBoggleBoard(true);
     setGameMode(document.getElementById("gameModeSelector").value);

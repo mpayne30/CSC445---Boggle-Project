@@ -24,10 +24,10 @@
             <div id="timer">Seconds Remaining: </div>
         </div>
         <div id="playerScoresContainer">
-            <div id="singlePlayerScore" class="score player1Score">Score: </div>
-            <div id="player1" class="score player1Score">Player 1's Score: </div>
-            <div id="player2" class="score player2Score">Player 2's Score: </div>
-            <div id="AIScore" class="score player2Score">Computer's Score: </div>
+            <div id="singlePlayerScore" class="score player1Score">Score: 0</div>
+            <div id="player1" class="score player1Score">Player 1's Score: 0</div>
+            <div id="player2" class="score player2Score">Player 2's Score: 0</div>
+            <div id="AIScore" class="score player2Score">Computer's Score: 0</div>
         </div>
 
         <div id="gridAndWordContainer">
@@ -54,8 +54,8 @@
 
         <dialog id="gameEndDialog">
             <div>
-                <div id="endOfGameText">{} Wins! / Game Over</div>
-                <div id="endOfGameScore">Final Scores: {} : {} / Score: {}</div>
+                <div id="endOfGameText">Game Over</div>
+                <div id="endOfGameScore">Score: {}</div>
                 <button id="endOfGameButton" onclick="startGame();">New Game</button>
                 <button id="closeButton" onclick="document.getElementById('gameEndDialog').close()">Close</button>
             </div>
