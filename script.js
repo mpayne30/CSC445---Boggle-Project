@@ -369,7 +369,6 @@ function resetTextBoxes(){
 
 function blockAllScoreBoxes() {
     document.getElementById("gridAndWordContainer").style.marginTop = "5%";
-
     document.getElementById("singlePlayerScore").style.display = "none";
     document.getElementById("player1").style.display = "none";
     document.getElementById("player2").style.display = "none";
