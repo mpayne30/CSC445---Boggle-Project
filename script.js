@@ -405,24 +405,8 @@ function setGameMode(gm) {
     }
 }
 
-function loadTextFile() {
-    const reader = new FileReader();
-
-    reader.onload = function(event) {
-        const contents = event.target.result;
-        console.group(contents);
-    };
-
-    reader.onerror = function(event) {
-        console.error('File reading error:', event.target.error);
-    };
-
-    reader.readAsText("words.txt");
-}
-
 blockAllScoreBoxes();
 generateBoggleBoard(false);
-loadTextFile();
 
 function startGame() {
     document.getElementById("turnEndDialog").close();
