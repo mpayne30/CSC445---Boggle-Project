@@ -372,8 +372,8 @@ function blockAllScoreBoxes() {
     document.getElementById("AIScore").style.display = "none";
 }
 
-function setGameMode(gm) {
-    gameMode = gm;
+function setGameMode(gameMode) {
+    this.gameMode = gameMode;
     if (gameMode === "twoPlayer") {
         // Start turn of player 1 after click input, show both score items, show turn end overlay, start player 2 turn, and dispaly score overlay at the end of the time.
         console.log("Player Vs. Player");
