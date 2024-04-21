@@ -67,7 +67,7 @@ const numCols = 4;
 let gameMode;
 
 let timerInterval;
-let seconds = 60;
+let seconds = 10;
 
 
 function generateBoggleBoard(initial) {
@@ -189,19 +189,23 @@ function submitWord(gridID) {
             if (playerId = '01'){
                 player1Points += calculateScore(word);
                 document.querySelectorAll('.player1Score').forEach(element => {
-                    if (gameMode = "singlePlayer")
-                    element.textContent = "Score: ".concat(player1Points);
-                    else if (gameMode = "twoPlayer") {
-                        element.textContent = "Player One's Score: " + player1Points;
+                    if (gameMode === "singlePlayer"){
+                        element.textContent = "Score: ".concat(player1Points);
+                        console.log(gameMode);
+                    }
+                    else if (gameMode === "twoPlayer") {
+                        element.textContent = "Player 1's Score: ".concat(player1Points);
                     }
                 });
             } else {
                 player2Points += calculateScore(word);
-                if (gameMode = "twoPlayer")
-                    element.textContent = "Player Two's Score: ".concat(player2Points);
-                else if (gameMode = "playerVsAI") {
-                    element.textContent = "Computer's Score: " + player2Points;
+                document.querySelectorAll('.player2Score').forEach(element => {
+                if (gameMode === "twoPlayer")
+                    element.textContent = "Player 2's Score: ".concat(player2Points);
+                else if (gameMode === "playerVsAI") {
+                    element.textContent = "Computer's Score: ".concat(player2Points);
                 }
+                });
             }
 
             // Add valid submitted word to word list.
@@ -372,8 +376,8 @@ function blockAllScoreBoxes() {
     document.getElementById("AIScore").style.display = "none";
 }
 
-function setGameMode(gameMode) {
-    this.gameMode = gameMode;
+function setGameMode(gm) {
+    gameMode = gm;
     if (gameMode === "twoPlayer") {
         // Start turn of player 1 after click input, show both score items, show turn end overlay, start player 2 turn, and dispaly score overlay at the end of the time.
         console.log("Player Vs. Player");
@@ -412,4 +416,14 @@ function startGame() {
     resetTextBoxes();
     generateBoggleBoard(true);
     setGameMode(document.getElementById("gameModeSelector").value);
+}
+
+function stopGame() {
+    document.getElementById("turnEndDialog").close();
+    document.getElementById("gameEndDialog").close();
+    document.getElementById("timer").textContent = "Seconds Remaining: ";
+    clearInterval(timerInterval);
+    resetTextBoxes();
+    blockAllScoreBoxes();
+    generateBoggleBoard(false);
 }
