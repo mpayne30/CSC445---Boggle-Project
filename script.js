@@ -61,6 +61,8 @@ let currentWordContent = new Stack();
 
 let gridCells = []; // Array to store references to all grid cells of player 1
 
+let letterGeneration = [];
+
 const numRows = 4;
 const numCols = 4;
 
@@ -72,29 +74,28 @@ let seconds = 60;
 
 
 function generateBoggleBoard(initial) {
-    const vowels = ['A', 'E', 'I', 'O', 'U'];
-    const consonants = ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'];
-
-    //Im gonna reword this soon
-    const letterDistribution = [...vowels,...vowels, ...vowels, ...vowels, ...consonants, ...consonants, ...consonants, ...consonants, ...consonants]; // Vowels:Consonants in a 4:5 Ratio
+    //Boggle dice regulation generation for a 4 x 4 board
+    const generationMap = [["R","I","F","B","X"],["I","F","E","H","E","Y"],["D","E","N","O","W","S"],["U","T","O","K","N","D"],["H","M","S","R","A","O"],["L","U","P","E","T","S"],["A","C","I","T","O","A"],["Y","L","G","K","U","E"],["QU","B","M","J","O","A"],["E","H","I","S","P","N"],["V","E","T","I","G","N"],["B","A","L","I","Y","T"],["E","Z","A","V","N","D"],["R","A","L","E","S","C"],["U","W","I","L","R","G"],["P","A","C","E","M","D"]];
 
     const board = [];
 
     // Loop through each row
     if (initial === true){
-        for (let i = 0; i < numRows; i++) {
-            const row = [];
+        let row = [];
 
-            // Loop through each column in the current row
-            for (let j = 0; j < numCols; j++) {
-                // Generate a random index to select a letter from the distribution
-                const randomIndex = Math.floor(Math.random() * letterDistribution.length);
-                const randomLetter = letterDistribution[randomIndex];
-                row.push(randomLetter); // Push the random letter to the current row
+        for (let i= 1; i <= 16; i++){
+            //Generates random letters based on the generation array
+            const randomIndex = Math.floor(Math.random() * generationMap[i-1].length);
+            const randomLetter = generationMap[i-1][randomIndex];
+            row.push(randomLetter)
+
+            if (i%4 === 0){
+                //Pushes new row to the board every 4 elements
+                board.push(row);
+                row = [];
             }
-
-            board.push(row); // Push the row to the 2D array (board)
         }
+
     } else {
         for (let i = 0; i < numRows; i++) {
             const row = [];
