@@ -9,7 +9,7 @@ import java.util.Set;
 public class TextFileFilter {
 
     public static void main(String[] args) {
-        String inputFile = "words.txt"; // Specify the input file path
+        String inputFile = "wordList.txt"; // Specify the input file path
         String outputFile = "output.txt"; // Specify the output file path
 
         try {
