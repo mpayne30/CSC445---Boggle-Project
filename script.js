@@ -56,8 +56,8 @@ let submitArray = [];
 
 let wordList = document.getElementById('wordList');
 
-const currentWordID = new Stack();
-const currentWordContent = new Stack();
+let currentWordID = new Stack();
+let currentWordContent = new Stack();
 
 let gridCells = []; // Array to store references to all grid cells of player 1
 
@@ -75,7 +75,7 @@ function generateBoggleBoard(initial) {
     const vowels = ['A', 'E', 'I', 'O', 'U'];
     const consonants = ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'];
 
-    //This const was gotten from chat gpt for letter distribution, doesn't work
+    //Im gonna reword this soon
     const letterDistribution = [...vowels,...vowels, ...vowels, ...vowels, ...consonants, ...consonants, ...consonants, ...consonants, ...consonants]; // Vowels:Consonants in a 4:5 Ratio
 
     const board = [];
@@ -180,19 +180,17 @@ function createGrid(letters, gridID) {
     });
 }
 
-// fix post stack implimentation
-function submitWord(gridID) {
+function submitWord() {
     let word = currentWordContent.join();
 
     if (currentWordID.size() > 2){
-        if (wordValidation(word, gridID)){
+        if (wordValidation(word)){
             //Get current players id, update appropriate score, reset board state.
-            if (playerId = '01'){
+            if (playerID === '01'){
                 player1Points += calculateScore(word);
                 document.querySelectorAll('.player1Score').forEach(element => {
                     if (gameMode === "singlePlayer"){
                         element.textContent = "Score: ".concat(player1Points);
-                        console.log(gameMode);
                     }
                     else if (gameMode === "twoPlayer") {
                         element.textContent = "Player 1's Score: ".concat(player1Points);
@@ -318,6 +316,15 @@ function showTurnEnd() {
         document.getElementById("endOfTurnText").textContent = "End of Player 1's Turn";
         document.getElementById("endOfTurnScore").textContent = "Score: "+player1Points;
         document.getElementById("endOfTurnButton").textContent = "Player 2's Turn";
+        document.getElementById("currentWord").textContent = "Current Word: ";
+
+        while (wordList.hasChildNodes()) {
+            wordList.removeChild(wordList.firstChild);
+        }
+
+        currentWordID.clear();
+        currentWordContent.clear();
+
         const turnDialog = document.getElementById("turnEndDialog");
         turnDialog.showModal();
         playerID = "02";
@@ -325,12 +332,29 @@ function showTurnEnd() {
         document.getElementById("endOfTurnText").textContent = "End of Player's Turn"
         document.getElementById("endOfTurnScore").textContent = "Score: "+player1Points;
         document.getElementById("endOfTurnButton").textContent = "Computer's Turn";
+        document.getElementById("currentWord").textContent = "Current Word: ";
+
+        while (wordList.hasChildNodes()) {
+            wordList.removeChild(wordList.firstChild);
+        }
+
+        currentWordID.clear();
+        currentWordContent.clear();
+
         const turnDialog = document.getElementById("turnEndDialog");
         turnDialog.showModal();
         playerID = "Computer";
     } else {
         showGameEnd();
     }
+    // Reset background color of all cells of the given player grid
+    gridCells.forEach(row => {
+        row.forEach(cell => {
+            const cellContent = cell.querySelector('div');
+            cellContent.style.backgroundColor = "#E6E6FA";
+            cell.setAttribute('data-on', false);
+        });
+    });
 }
 
 function showGameEnd(){
