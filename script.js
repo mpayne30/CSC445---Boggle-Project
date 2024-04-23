@@ -203,9 +203,6 @@ async function aiTurn() {
         currentWordID.clear();
         currentWordContent.clear();
 
-        //console.log(i);
-        await new Promise(resolve => setTimeout(resolve, (seconds-1*1000)/(wordAttempts*0.9)));
-
         let visited = new Set();  // To keep track of visited cells
         let path = [];  // To store the path of selected cells
         let word = "";
@@ -218,7 +215,9 @@ async function aiTurn() {
         visited.add(`${currentCell.x}-${currentCell.y}`);
         path.push(currentCell);
         word += gridCells[currentCell.y][currentCell.x].textContent;
+
         gridCells[currentCell.y][currentCell.x].querySelector('div').style.backgroundColor = "red";
+        await new Promise(resolve => setTimeout(resolve, (seconds-1*1000)/(wordAttempts*0.9)));
 
         // Iteratively pick adjacent cells and form a word
         let charactersChecked = Math.floor(Math.random() * 3) + 3;
