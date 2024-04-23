@@ -1,5 +1,5 @@
 #body {
-    background-color: rgb(250,205,125);
+    background-color: rgb(240,180,100);
     font-family: Arial;
 }
 
@@ -8,7 +8,6 @@ table {
     width: 30%;
     border-collapse: collapse;
     border: 10px solid rgb(0,65,80);
-    border-radius: 20px;
 }
 
 /* Set the table cells to have a specific aspect ratio */
@@ -21,7 +20,6 @@ td {
     font-style: bold;
     background-color: rgb(115,205,230);
     border: 6px solid rgb(0,65,80);
-    border-radius: 20px;
 }
 
 td div {
