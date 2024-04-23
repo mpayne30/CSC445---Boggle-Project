@@ -397,6 +397,7 @@ function showTurnEnd() {
     // Clear the submitArray
     currentWordID.clear();
     currentWordContent.clear();
+    wordArray = [];
     timerActive = false;
 
     if (gameMode === "twoPlayer"){
