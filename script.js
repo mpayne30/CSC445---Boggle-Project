@@ -69,7 +69,7 @@ const numCols = 4;
 let gameMode;
 
 let timerInterval;
-let seconds = 10;
+let seconds = 60;
 
 
 
@@ -111,17 +111,12 @@ function generateBoggleBoard(initial) {
     createGrid(board, "grid")
 }
 async function aiTurn() {
-    let num = Math.floor(Math.random() * 401) + 200;
 
-<<<<<<< HEAD
     //This introduces a random degree of difficulty with a minmum of 200 attempts and a max of 601
     let wordAttempts = Math.floor(Math.random() * 401) + 200;
-    console.log(wordAttempts);
+    console.log("AI Words Attemps Allowance: "+wordAttempts);
     for (let i = 0; i < wordAttempts; i++){
-=======
-    console.log(num);
-    for (let i = 0; i < num; i++){
->>>>>>> parent of 2d7eaa9 (comments and clean up)
+
         //console.log(i);
         await new Promise(resolve => setTimeout(resolve, (seconds-1*1000)/wordAttempts));
 
@@ -156,9 +151,9 @@ async function aiTurn() {
             currentWordContent.push(gridCells[currentCell.y][currentCell.x].textContent);
         }
 
-        // Validate and score the word
+        // Validate and score the word internally because of the alerts in submitWord
         if ( wordValidation(word)) {
-            console.log(`AI selected word: ${word}`);
+            //console.log(`AI selected word: ${word}`);
             player2Points += calculateScore(word);
 
             // Update the AI's score on the UI
@@ -177,6 +172,8 @@ async function aiTurn() {
                 });
             });
         }
+
+        //Ends ai attemps at time limit reguardless of remaining attempts
         if (!timerActive){
             break;
         }
