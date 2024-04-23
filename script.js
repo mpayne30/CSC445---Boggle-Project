@@ -221,10 +221,10 @@ async function aiTurn() {
         gridCells[currentCell.y][currentCell.x].querySelector('div').style.backgroundColor = "red";
 
         // Iteratively pick adjacent cells and form a word
-        let num2 = Math.floor(Math.random() * 3) + 3;
+        let charactersChecked = Math.floor(Math.random() * 3) + 3;
         //console.log(num2);
 
-        for (let i = 1; i < num2; i++) {  // For simplicity, aiming for a word length of 4
+        for (let i = 1; i < charactersChecked; i++) {  // For simplicity, aiming for a word length of 4
             let adjacentCells = getAdjacentCells(currentCell.x, currentCell.y, visited);
             if (adjacentCells.length === 0) break;  // No more adjacent cells to explore
 
