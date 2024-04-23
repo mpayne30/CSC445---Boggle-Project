@@ -9,8 +9,9 @@ import java.util.Set;
 public class TextFileFilter {
 
     public static void main(String[] args) {
-        String inputFile = "turd.txt"; // Specify the input file path
-        String outputFile = "turd3.txt"; // Specify the output file path
+        String inputFile = "10000words.txt"; // Specify the input file path
+        String outputFile = "10000pre.txt"; // Specify the output file path
+
 
         try {
             filterTextFile(inputFile, outputFile);
