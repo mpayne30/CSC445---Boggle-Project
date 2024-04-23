@@ -150,7 +150,7 @@ function createGrid(letters, gridID) {
             cell.addEventListener('click', () => {
                 const cellContent = cell.querySelector('div');
                     if (cell.getAttribute('data-on') === 'false' && isAdjacent(cell) && timerActive) {
-                        cellContent.style.backgroundColor = "#00CED1";
+                        cellContent.style.backgroundColor = "rgb(255, 225, 145)";
                         cell.setAttribute('data-on', 'true');
 
                         currentWordID.push(cell);
