@@ -9,8 +9,8 @@ import java.util.Set;
 public class TextFileFilter {
 
     public static void main(String[] args) {
-        String inputFile = "wordList.txt"; // Specify the input file path
-        String outputFile = "output.txt"; // Specify the output file path
+        String inputFile = "turd.txt"; // Specify the input file path
+        String outputFile = "turd3.txt"; // Specify the output file path
 
         try {
             filterTextFile(inputFile, outputFile);
@@ -28,14 +28,14 @@ public class TextFileFilter {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                // Convert line to lowercase
+                // Convert line to lowercase for processing and output
                 String lowercaseLine = line.toLowerCase();
 
                 // Check for duplicates (in lowercase)
                 if (!uniqueLines.contains(lowercaseLine)) {
                     // Apply filters to the lowercase line
                     if (isValidLine(lowercaseLine)) {
-                        writer.write(line); // Write original line to output file
+                        writer.write(lowercaseLine); // Write the modified lowercase line to output file
                         writer.newLine();
                         uniqueLines.add(lowercaseLine); // Add lowercase line to set
                     }

@@ -4,7 +4,7 @@ public class TextFileProcessor {
 
     public static void main(String[] args) {
         // Provide the path to your input and output text files
-        String inputFile = "output.txt";
+        String inputFile = "turd3.txt";
         String outputFile = "words4.txt";
         
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
