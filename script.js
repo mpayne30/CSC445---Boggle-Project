@@ -114,10 +114,10 @@ async function aiTurn() {
 
     //This introduces a random degree of difficulty with a minmum of 200 attempts and a max of 601
     let wordAttempts = Math.floor(Math.random() * 401) + 200;
-    console.log(num);
+    console.log(wordAttempts);
     for (let i = 0; i < wordAttempts; i++){
         //console.log(i);
-        await new Promise(resolve => setTimeout(resolve, (seconds-1*1000)/num));
+        await new Promise(resolve => setTimeout(resolve, (seconds-1*1000)/wordAttempts));
 
         let visited = new Set();  // To keep track of visited cells
         let path = [];  // To store the path of selected cells
