@@ -86,7 +86,6 @@ dialog button {
 #wordListContainer {
     background-color: lightgray;
     width: 25%;
-    height: 45vh;
     border: 2px solid black;
     border-radius: 10px;
     margin-left: 10%;

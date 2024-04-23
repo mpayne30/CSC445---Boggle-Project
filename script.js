@@ -151,7 +151,7 @@ async function aiTurn() {
         wordList.appendChild(listItem);
     }}
 }
-  
+
 function getAdjacentCells(x, y, visited) {
     let adjacentCells = [];
     for (let dx = -1; dx <= 1; dx++) {
