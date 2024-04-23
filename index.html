@@ -44,7 +44,13 @@
             <div id="currentWord">Current Word: </div>
         </div>
 
-        <button id="submitButton" onclick="submitWord()">Submit</button>
+        <div>
+            <button id="submitButton" onclick="submitWord()">Submit</button>
+        </div>
+
+        <div id="skipTurnContainer">
+            <button id="skipTurnButton" onclick="skipTurn()" disabled>Skip Turn</button>
+        </div>
 
         <dialog id="turnEndDialog">
             <div>

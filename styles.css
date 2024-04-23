@@ -105,6 +105,12 @@ dialog button {
     align-content: center;
 }
 
+#skipTurnContainer {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+
 #wordList {
     margin-left: 5%;
 }
