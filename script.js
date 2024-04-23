@@ -55,6 +55,7 @@ let player2Points  = 0;
 let submitArray = [];
 
 let wordList = document.getElementById('wordList');
+let wordArray = [];
 
 let currentWordID = new Stack();
 let currentWordContent = new Stack();
@@ -69,7 +70,7 @@ const numCols = 4;
 let gameMode;
 
 let timerInterval;
-let seconds = 60;
+let seconds = 10;
 
 
 
@@ -171,13 +172,24 @@ function createGrid(letters, gridID) {
             row.appendChild(cell); // Append the cell to the row
 
             // Store reference to the cell in gridCells array
-                if (!gridCells[rowIndex]) {
-                    gridCells[rowIndex] = [];
-                }
-                gridCells[rowIndex][colIndex] = cell;
+            if (!gridCells[rowIndex]) {
+                gridCells[rowIndex] = [];
+            }
+            gridCells[rowIndex][colIndex] = cell;
         });
 
         grid.appendChild(row); // Append the row to the table
+    });
+}
+
+function resestGridColor() {
+    // Reset background color of all cells of the given player grid
+    gridCells.forEach(row => {
+        row.forEach(cell => {
+            const cellContent = cell.querySelector('div');
+            cellContent.style.backgroundColor = "#E6E6FA";
+            cell.setAttribute('data-on', false);
+        });
     });
 }
 
@@ -234,14 +246,7 @@ async function aiTurn() {
             listItem.textContent = `${word}`;
             wordList.appendChild(listItem);
         } else {
-            // Reset background color of all cells of the given player grid
-            gridCells.forEach(row => {
-                row.forEach(cell => {
-                    const cellContent = cell.querySelector('div');
-                    cellContent.style.backgroundColor = "#E6E6FA";
-                    cell.setAttribute('data-on', false);
-                });
-            });
+            resestGridColor();
         }
 
         //Ends ai attemps at time limit reguardless of remaining attempts
@@ -269,8 +274,7 @@ function getAdjacentCells(x, y, visited) {
 function submitWord() {
     let word = currentWordContent.join();
 
-    if (currentWordID.size() > 2){
-        if (wordValidation(word)){
+    if (currentWordID.size() > 2 && wordValidation(word) && (wordArray.includes(word.toLowerCase()) != true)){
             //Get current players id, update appropriate score, reset board state.
             if (playerID === '01'){
                 player1Points += calculateScore(word);
@@ -297,6 +301,7 @@ function submitWord() {
             const listItem = document.createElement('li');
             listItem.textContent = word;
             wordList.appendChild(listItem);
+            wordArray.push(word.toLowerCase());
 
             // Clear the submitArray
             currentWordID.clear();
@@ -305,21 +310,12 @@ function submitWord() {
             // Reset text box
             document.getElementById("currentWord").textContent = "Current Word: ";
 
-            // Reset background color of all cells of the given player grid
-            gridCells.forEach(row => {
-                row.forEach(cell => {
-                    const cellContent = cell.querySelector('div');
-                    cellContent.style.backgroundColor = "#E6E6FA";
-                    cell.setAttribute('data-on', false);
-                });
-            });
+            resestGridColor();
         } else {
+        if (gameMode != "playerVsAI") {
             console.log("Failed to submit");
-            alert("Word is not valid: failed to submit");
-        }
-    } else {
-        console.log("Failed to submit");
-        alert("Word is too short: failed to submit");
+            alert("Word is invalid: failed to submit");
+            }
     }
 }
 
