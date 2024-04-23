@@ -111,54 +111,69 @@ function generateBoggleBoard(initial) {
     createGrid(board, "grid")
 }
 async function aiTurn() {
-    
     let num = Math.floor(Math.random() * 401) + 200;
 
     console.log(num);
     for (let i = 0; i < num; i++){
-        console.log(i);
-    await new Promise(resolve => setTimeout(resolve, (seconds-1*1000)/num));
-    
-    let visited = new Set();  // To keep track of visited cells
-    let path = [];  // To store the path of selected cells
-    let word = "";
+        //console.log(i);
+        await new Promise(resolve => setTimeout(resolve, (seconds-1*1000)/num));
 
-    // Start with a random cell
-    let currentCell = {
-        x: Math.floor(Math.random() * numCols),
-        y: Math.floor(Math.random() * numRows)
-    };
-    visited.add(`${currentCell.x}-${currentCell.y}`);
-    path.push(currentCell);
-    word += gridCells[currentCell.y][currentCell.x].textContent;
+        let visited = new Set();  // To keep track of visited cells
+        let path = [];  // To store the path of selected cells
+        let word = "";
 
-    // Iteratively pick adjacent cells and form a word
-    let num2 = Math.floor(Math.random() * 3) + 3;
-    console.log(num2);
-
-    for (let i = 1; i < num2; i++) {  // For simplicity, aiming for a word length of 4
-        let adjacentCells = getAdjacentCells(currentCell.x, currentCell.y, visited);
-        if (adjacentCells.length === 0) break;  // No more adjacent cells to explore
-
-        // Select a random adjacent cell from those available
-        currentCell = adjacentCells[Math.floor(Math.random() * adjacentCells.length)];
+        // Start with a random cell
+        let currentCell = {
+            x: Math.floor(Math.random() * numCols),
+            y: Math.floor(Math.random() * numRows)
+        };
         visited.add(`${currentCell.x}-${currentCell.y}`);
         path.push(currentCell);
         word += gridCells[currentCell.y][currentCell.x].textContent;
+        gridCells[currentCell.y][currentCell.x].querySelector('div').style.backgroundColor = "red";
+
+        // Iteratively pick adjacent cells and form a word
+        let num2 = Math.floor(Math.random() * 3) + 3;
+        //console.log(num2);
+
+        for (let i = 1; i < num2; i++) {  // For simplicity, aiming for a word length of 4
+            let adjacentCells = getAdjacentCells(currentCell.x, currentCell.y, visited);
+            if (adjacentCells.length === 0) break;  // No more adjacent cells to explore
+
+            // Select a random adjacent cell from those available
+            currentCell = adjacentCells[Math.floor(Math.random() * adjacentCells.length)];
+            gridCells[currentCell.y][currentCell.x].querySelector('div').style.backgroundColor = "red";
+            visited.add(`${currentCell.x}-${currentCell.y}`);
+            path.push(currentCell);
+            word += gridCells[currentCell.y][currentCell.x].textContent;
+            currentWordContent.push(gridCells[currentCell.y][currentCell.x].textContent);
+        }
+
+        // Validate and score the word
+        if ( wordValidation(word)) {
+            console.log(`AI selected word: ${word}`);
+            player2Points += calculateScore(word);
+
+            // Update the AI's score on the UI
+            document.getElementById("AIScore").textContent = `Computer's Score: ${player2Points}`;
+
+            const listItem = document.createElement('li');
+            listItem.textContent = `${word}`;
+            wordList.appendChild(listItem);
+        } else {
+            // Reset background color of all cells of the given player grid
+            gridCells.forEach(row => {
+                row.forEach(cell => {
+                    const cellContent = cell.querySelector('div');
+                    cellContent.style.backgroundColor = "#E6E6FA";
+                    cell.setAttribute('data-on', false);
+                });
+            });
+        }
+        if (!timerActive){
+            break;
+        }
     }
-
-    // Validate and score the word
-    if ( wordValidation(word)) {
-        console.log(`AI selected word: ${word}`);
-        player2Points += calculateScore(word);
-
-        // Update the AI's score on the UI
-        document.getElementById("AIScore").textContent = `Computer's Score: ${player2Points}`;
-
-        const listItem = document.createElement('li');
-        listItem.textContent = `AI: ${word}`;
-        wordList.appendChild(listItem);
-    }}
 }
 
 function getAdjacentCells(x, y, visited) {
