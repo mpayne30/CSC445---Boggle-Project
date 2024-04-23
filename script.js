@@ -139,7 +139,7 @@ async function aiTurn() {
     }
 }
 
-}
+
 // Function to create the grid from the letters list
 function createGrid(letters, gridID) {
     const grid = document.getElementById(gridID);
@@ -467,6 +467,8 @@ blockAllScoreBoxes();
 generateBoggleBoard(false);
 
 function startGame() {
+    player1Points = 0;
+    player2Points  = 0;
     document.getElementById("turnEndDialog").close();
     document.getElementById("gameEndDialog").close();
     clearInterval(timerInterval);
