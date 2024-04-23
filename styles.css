@@ -23,10 +23,11 @@ td {
 }
 
 td div {
-    position: absolute; /* Position the content absolutely within the cell */
-    top: 50%; /* Vertically center the content */
-    left: 50%; /* Horizontally center the content */
-    transform: translate(-50%, -50%); /* Center the content precisely */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    user-select: none;
 }
 
 /*https://youtu.be/t_GuuhNNcNQ?si=Linebh24vtKwOjfJ*/
