@@ -149,7 +149,7 @@ function createGrid(letters, gridID) {
             // Click listener
             cell.addEventListener('click', () => {
                 const cellContent = cell.querySelector('div');
-                    if (cell.getAttribute('data-on') !== 'true' && isAdjacent(cell) && timerActive) {
+                    if (cell.getAttribute('data-on') === 'false' && isAdjacent(cell) && timerActive) {
                         cellContent.style.backgroundColor = "#00CED1";
                         cell.setAttribute('data-on', 'true');
 
@@ -397,6 +397,7 @@ function showTurnEnd() {
     // Clear the submitArray
     currentWordID.clear();
     currentWordContent.clear();
+    timerActive = false;
 
     if (gameMode === "twoPlayer"){
         document.getElementById("endOfTurnText").textContent = "End of Player 1's Turn";
