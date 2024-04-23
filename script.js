@@ -70,7 +70,7 @@ const numCols = 4;
 let gameMode;
 
 let timerInterval;
-let seconds = 10;
+let seconds = 60;
 
 
 
@@ -204,7 +204,7 @@ async function aiTurn() {
         currentWordContent.clear();
 
         //console.log(i);
-        await new Promise(resolve => setTimeout(resolve, (seconds-1*1000)/wordAttempts));
+        await new Promise(resolve => setTimeout(resolve, (seconds-1*1000)/(wordAttempts*0.9)));
 
         let visited = new Set();  // To keep track of visited cells
         let path = [];  // To store the path of selected cells
@@ -304,12 +304,12 @@ function submitWord() {
 
             resestGridColor();
         } else {
-        if (gameMode != "playerVsAI") {
-            console.log("Failed to submit");
-            alert("Word is invalid: failed to submit");
-        } else {
-            console.log("AI Tried");
-            resestGridColor();
+            if (gameMode != "playerVsAI") {
+                console.log("Failed to submit");
+                alert("Word is invalid: failed to submit");
+            } else {
+                //console.log("AI Tried");
+                resestGridColor();
         }
     }
 }
