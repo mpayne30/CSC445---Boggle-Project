@@ -347,6 +347,10 @@ function updateTimer() {
 }
 
 function showTurnEnd() {
+    // Clear the submitArray
+    currentWordID.clear();
+    currentWordContent.clear();
+
     if (gameMode === "twoPlayer"){
         document.getElementById("endOfTurnText").textContent = "End of Player 1's Turn";
         document.getElementById("endOfTurnScore").textContent = "Score: "+player1Points;
