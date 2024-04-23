@@ -296,6 +296,8 @@ function submitWord() {
             wordArray.push(word.toLowerCase());
 
             // Reset text box
+            currentWordID.clear();
+            currentWordContent.clear();
             document.getElementById("currentWord").textContent = "Current Word: ";
 
             resestGridColor();
