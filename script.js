@@ -199,6 +199,9 @@ async function aiTurn() {
     let wordAttempts = Math.floor(Math.random() * 401) + 200;
     console.log("AI Words Attemps Allowance: "+wordAttempts);
     for (let i = 0; i < wordAttempts; i++){
+        // Clear the submitArray
+        currentWordID.clear();
+        currentWordContent.clear();
 
         //console.log(i);
         await new Promise(resolve => setTimeout(resolve, (seconds-1*1000)/wordAttempts));
@@ -232,22 +235,11 @@ async function aiTurn() {
             path.push(currentCell);
             word += gridCells[currentCell.y][currentCell.x].textContent;
             currentWordContent.push(gridCells[currentCell.y][currentCell.x].textContent);
+            currentWordID.push(gridCells[currentCell.y][currentCell.x])
         }
 
         // Validate and score the word internally because of the alerts in submitWord
-        if (wordValidation(word)) {
-            //console.log(`AI selected word: ${word}`);
-            player2Points += calculateScore(word);
-
-            // Update the AI's score on the UI
-            document.getElementById("AIScore").textContent = `Computer's Score: ${player2Points}`;
-
-            const listItem = document.createElement('li');
-            listItem.textContent = `${word}`;
-            wordList.appendChild(listItem);
-        } else {
-            resestGridColor();
-        }
+        submitWord();
 
         //Ends ai attemps at time limit reguardless of remaining attempts
         if (!timerActive){
@@ -315,7 +307,10 @@ function submitWord() {
         if (gameMode != "playerVsAI") {
             console.log("Failed to submit");
             alert("Word is invalid: failed to submit");
-            }
+        } else {
+            console.log("AI Tried");
+            resestGridColor();
+        }
     }
 }
 
@@ -413,9 +408,6 @@ function showTurnEnd() {
             wordList.removeChild(wordList.firstChild);
         }
 
-        currentWordID.clear();
-        currentWordContent.clear();
-
         const turnDialog = document.getElementById("turnEndDialog");
         turnDialog.showModal();
         playerID = "02";
@@ -429,9 +421,6 @@ function showTurnEnd() {
             wordList.removeChild(wordList.firstChild);
         }
 
-        currentWordID.clear();
-        currentWordContent.clear();
-
         const turnDialog = document.getElementById("turnEndDialog");
         turnDialog.showModal();
         playerID = "Computer";
@@ -439,14 +428,8 @@ function showTurnEnd() {
     } else {
         showGameEnd();
     }
-    // Reset background color of all cells of the given player grid
-    gridCells.forEach(row => {
-        row.forEach(cell => {
-            const cellContent = cell.querySelector('div');
-            cellContent.style.backgroundColor = "#E6E6FA";
-            cell.setAttribute('data-on', false);
-        });
-    });
+
+    resestGridColor();
 }
 
 function showGameEnd(){
