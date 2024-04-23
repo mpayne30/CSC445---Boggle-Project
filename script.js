@@ -110,6 +110,35 @@ function generateBoggleBoard(initial) {
     createGrid(board, "grid")
 }
 
+async function aiTurn() {
+    // Simulates AI "thinking" delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    timerActive = true;
+
+    // AI selects a random word from the validWords list
+    let word = validWords[Math.floor(Math.random() * validWords.length)];
+
+    if (wordValidation(word)) {
+        console.log(`AI selected word: ${word}`);
+        player2Points += calculateScore(word);
+
+        // Update the AI's score on the UI
+        document.getElementById("AIScore").textContent = "Computer's Score: " + player2Points;
+
+        const listItem = document.createElement('li');
+        listItem.textContent = `AI: ${word}`;
+        wordList.appendChild(listItem);
+    }
+
+    // Prepare for player's next turn
+    if (playerID === "Computer") {
+        document.getElementById("turnEndDialog").close();  // Close the dialog if it's open
+        playerID = "01";  // Set back to player one
+        startTimer();  // Restart the timer for player one's turn
+    }
+}
+
+}
 // Function to create the grid from the letters list
 function createGrid(letters, gridID) {
     const grid = document.getElementById(gridID);
@@ -321,13 +350,14 @@ function showTurnEnd() {
         const turnDialog = document.getElementById("turnEndDialog");
         turnDialog.showModal();
         playerID = "02";
-    } else if (gameMode === "playerVsAI"){
-        document.getElementById("endOfTurnText").textContent = "End of Player's Turn"
-        document.getElementById("endOfTurnScore").textContent = "Score: "+player1Points;
+    } else if (gameMode === "playerVsAI") {
+        document.getElementById("endOfTurnText").textContent = "End of Player's Turn";
+        document.getElementById("endOfTurnScore").textContent = "Score: " + player1Points;
         document.getElementById("endOfTurnButton").textContent = "Computer's Turn";
         const turnDialog = document.getElementById("turnEndDialog");
         turnDialog.showModal();
         playerID = "Computer";
+        turnDialog.addEventListener('close', aiTurn);  // Call AI turn when the dialog closes
     } else {
         showGameEnd();
     }
