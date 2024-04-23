@@ -219,12 +219,11 @@ async function aiTurn() {
 
         gridCells[currentCell.y][currentCell.x].querySelector('div').style.backgroundColor = "red";
         await new Promise(resolve => setTimeout(resolve, (seconds-1*1000)/(wordAttempts*0.9)));
-
-        // Iteratively pick adjacent cells and form a word
+        // randomly picks a length of either 3,4, or 5 to be checked
         let charactersChecked = Math.floor(Math.random() * 3) + 3;
-        //console.log(num2);
-
-        for (let i = 1; i < charactersChecked; i++) {  // For simplicity, aiming for a word length of 4
+        // Iteratively pick adjacent cells and form a word
+       
+        for (let i = 1; i < charactersChecked; i++) {  
             let adjacentCells = getAdjacentCells(currentCell.x, currentCell.y, visited);
             if (adjacentCells.length === 0) break;  // No more adjacent cells to explore
 
