@@ -69,7 +69,7 @@ const numCols = 4;
 let gameMode;
 
 let timerInterval;
-let seconds = 60;
+let seconds = 10;
 
 
 
@@ -112,14 +112,29 @@ function generateBoggleBoard(initial) {
 }
 
 async function aiTurn() {
-    // Simulates AI "thinking" delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    timerActive = true;
+    console.log("it work");
+    let word = "";
+    let currentCell = {
+        x: Math.floor(Math.random() * numCols),
+        y: Math.floor(Math.random() * numRows)
+    };
+    console.log(currentCell);
+    let path = [currentCell];
+    let selectedCells = new Set([`${currentCell.x}-${currentCell.y}`]);
 
-    // AI selects a random word from the validWords list
-    let word = validWords[Math.floor(Math.random() * validWords.length)];
+    // Attempt to form a word of 4 letters
+    for (let i = 1; i < 4; i++) {
+        let adjacentCells = getAdjacentCells(currentCell.x, currentCell.y).filter(cell => !selectedCells.has(`${cell.x}-${cell.y}`));
+        if (adjacentCells.length === 0) break;  // No more adjacent cells to explore
+        currentCell = adjacentCells[Math.floor(Math.random() * adjacentCells.length)];
+        path.push(currentCell);
+        selectedCells.add(`${currentCell.x}-${currentCell.y}`);
+    }
 
-    if (wordValidation(word)) {
+    // Build the word from selected cells
+    word = path.map(cell => gridCells[cell.y][cell.x].querySelector('div').textContent).join('');
+
+    if (word.length === 4 && wordValidation(word)) {
         console.log(`AI selected word: ${word}`);
         player2Points += calculateScore(word);
 
@@ -131,15 +146,25 @@ async function aiTurn() {
         wordList.appendChild(listItem);
     }
 
-    // Prepare for player's next turn
-    if (playerID === "Computer") {
-        document.getElementById("turnEndDialog").close();  // Close the dialog if it's open
-        playerID = "01";  // Set back to player one
-        startTimer();  // Restart the timer for player one's turn
-    }
+  
 }
 
 
+
+function getAdjacentCells(x, y) {
+    let adjacentCells = [];
+    for (let dx = -1; dx <= 1; dx++) {
+        for (let dy = -1; dy <= 1; dy++) {
+            if (dx === 0 && dy === 0) continue;  // Skip the cell itself
+            let nx = x + dx;
+            let ny = y + dy;
+            if (nx >= 0 && nx < numRows && ny >= 0 && ny < numCols) {  // Check boundaries
+                adjacentCells.push({ x: nx, y: ny });
+            }
+        }
+    }
+    return adjacentCells;
+}
 // Function to create the grid from the letters list
 function createGrid(letters, gridID) {
     const grid = document.getElementById(gridID);
