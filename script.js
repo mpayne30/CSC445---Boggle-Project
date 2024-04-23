@@ -195,7 +195,7 @@ function resestGridColor() {
 
 async function aiTurn() {
 
-    //This introduces a random degree of difficulty with a minmum of 200 attempts and a max of 601
+    //This introduces a random degree of difficulty with a minmum of 200 attempts and a max of 1200
     let wordAttempts = Math.floor(Math.random() * 1000) + 200;
     //let wordAttempts = 10000;
     console.log("AI Words Attemps Allowance: "+wordAttempts);
