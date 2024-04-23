@@ -136,7 +136,7 @@ function createGrid(letters, gridID) {
             cellContent.style.display = 'flex';
             cellContent.style.alignItems = 'center';
             cellContent.style.justifyContent = 'center';
-            cellContent.style.backgroundColor = "#E6E6FA";
+            cellContent.style.backgroundColor = "rgb(114,206,229)";
 
             // Assign a unique ID to each cell based on its position
             const cellId = `cell-${rowIndex}-${colIndex}`;
@@ -159,7 +159,7 @@ function createGrid(letters, gridID) {
                         document.getElementById("currentWord").textContent = ("Current Word: "+currentWordContent.join());
                     } else if (cell.getAttribute('data-on') === 'true' && cell.id === currentWordID.peek().id && timerActive) {
                         cell.setAttribute('data-on', 'false');
-                        cellContent.style.backgroundColor = "#E6E6FA";
+                        cellContent.style.backgroundColor = "rgb(114,206,229)";
 
                         currentWordID.pop();
                         currentWordContent.pop();
@@ -187,7 +187,7 @@ function resestGridColor() {
     gridCells.forEach(row => {
         row.forEach(cell => {
             const cellContent = cell.querySelector('div');
-            cellContent.style.backgroundColor = "#E6E6FA";
+            cellContent.style.backgroundColor = "rgb(114,206,229)";
             cell.setAttribute('data-on', false);
         });
     });

@@ -1,20 +1,24 @@
 #body {
-    background-color: lightyellow;
+    background-color: rgb(250,205,125);
+    font-family: sans-serif;
 }
 
-/* Set the table width to 40% of the viewport width */
+/* Set the table width to 30% of the viewport width */
 table {
     width: 30%;
     border-collapse: collapse;
+    border: 10px solid rgb(0,65,80);
 }
 
 /* Set the table cells to have a specific aspect ratio */
 td {
     width: 25%;
     padding-top: 25%;
-    border: 3px solid black;
+    border: 6px solid rgb(0,65,80);
     text-align: center;
     position: relative;
+    font-size:30pt;
+    background-color: rgb(115,205,230);
 }
 
 td div {
@@ -47,7 +51,6 @@ dialog button {
     display: grid;
     grid-template-columns: auto auto auto auto auto auto;
     gap: 10px;
-    background-color: #2196F3;
     padding: 10px;
     max-height: 60vh;
 }
@@ -85,7 +88,7 @@ dialog button {
 }
 
 #wordListContainer {
-    background-color: lightgray;
+    background-color: white;
     width: 25%;
     border: 2px solid black;
     border-radius: 10px;
@@ -97,13 +100,14 @@ dialog button {
     margin-top: 2%;
     margin-left: 5%;
     margin-bottom: 2%;
-    background-color: lightcyan;
+    background-color: lightgray;
     width: 28.5%;
     height: 5vh;
     border: 2px solid black;
     border-radius: 10px;
     font-size: 22pt;
     align-content: center;
+    padding-left:1%;
 }
 
 #skipTurnContainer {
@@ -130,6 +134,7 @@ dialog button {
     align-content: center;
     margin: 0.5%;
     margin-top: 2.5%;
+    padding-left:1%;
 }
 
 .player1Score {
