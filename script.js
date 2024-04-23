@@ -111,8 +111,14 @@ function generateBoggleBoard(initial) {
     createGrid(board, "grid")
 }
 async function aiTurn() {
-    for (let i = 0; i < 1200; i++){
-    console.log("it work");
+    
+    let num = Math.floor(Math.random() * 401) + 200;
+
+    console.log(num);
+    for (let i = 0; i < num; i++){
+        console.log(i);
+    await new Promise(resolve => setTimeout(resolve, (seconds-1*1000)/num));
+    
     let visited = new Set();  // To keep track of visited cells
     let path = [];  // To store the path of selected cells
     let word = "";
@@ -127,7 +133,10 @@ async function aiTurn() {
     word += gridCells[currentCell.y][currentCell.x].textContent;
 
     // Iteratively pick adjacent cells and form a word
-    for (let i = 1; i < 4; i++) {  // For simplicity, aiming for a word length of 4
+    let num2 = Math.floor(Math.random() * 3) + 3;
+    console.log(num2);
+
+    for (let i = 1; i < num2; i++) {  // For simplicity, aiming for a word length of 4
         let adjacentCells = getAdjacentCells(currentCell.x, currentCell.y, visited);
         if (adjacentCells.length === 0) break;  // No more adjacent cells to explore
 
@@ -139,7 +148,7 @@ async function aiTurn() {
     }
 
     // Validate and score the word
-    if (word.length === 4 && wordValidation(word)) {
+    if ( wordValidation(word)) {
         console.log(`AI selected word: ${word}`);
         player2Points += calculateScore(word);
 
