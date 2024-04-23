@@ -117,8 +117,7 @@ dialog button {
 }
 
 #submitButton {
-    width: 5%;
-    height: 5vh;
+    font-size: 25pt;
     margin-left: 15%;
 }
 
