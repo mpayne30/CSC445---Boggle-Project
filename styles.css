@@ -49,6 +49,7 @@ dialog button {
     gap: 10px;
     background-color: #2196F3;
     padding: 10px;
+    max-height: 60vh;
 }
 
 #startContainer {
