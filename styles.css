@@ -1,3 +1,5 @@
+/*styles*/
+
 #body {
     background-color: rgb(240,180,100);
     font-family: Arial;
@@ -30,6 +32,7 @@ td div {
     user-select: none;
 }
 
+
 /*https://youtu.be/t_GuuhNNcNQ?si=Linebh24vtKwOjfJ*/
 dialog {
     width: 30%;
@@ -39,15 +42,18 @@ dialog {
     text-align: center;
 }
 
+
 dialog::backdrop {
     background-color: gray;
     opacity: 0.5;
 }
 
+
 dialog button {
     width: 40%;
     height: 5vh;
 }
+
 
 .gridContainer {
     display: grid;
@@ -57,16 +63,20 @@ dialog button {
     max-height: 60vh;
 }
 
+
 #startContainer {
     font-size: 25pt;
     display: flex;
 }
+
 
 #startContainer select{
     font-size: 20pt;
     margin-left: 2%;
     margin-right: 2%;
 }
+
+
 
 #startContainer button{
     font-size: 20pt;
