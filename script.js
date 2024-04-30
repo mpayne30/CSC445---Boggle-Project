@@ -56,6 +56,7 @@ let submitArray = [];
 
 let wordList = document.getElementById('wordList');
 let wordArray = [];
+let wordArray2 = [];
 
 let currentWordID = new Stack();
 let currentWordContent = new Stack();
@@ -70,7 +71,7 @@ const numCols = 4;
 let gameMode;
 
 let timerInterval;
-let seconds = 60;
+let seconds = 20;
 
 const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
@@ -262,6 +263,20 @@ function getAdjacentCells(x, y, visited) {
     return adjacentCells;
 }
 
+function showNotification(message) {
+    const notificationBox = document.getElementById("notificationBox");
+    notificationBox.textContent = message; // Set the message text
+    notificationBox.style.display = 'block'; // Make the box visible
+
+    // Hide the notification after 1 second (1000 milliseconds)
+    setTimeout(() => {
+        notificationBox.style.display = 'none';
+    }, 1000);
+}
+
+
+
+
 function submitWord() {
     let word = currentWordContent.join();
 
@@ -272,12 +287,23 @@ function submitWord() {
                 document.querySelectorAll('.player1Score').forEach(element => {
                     if (gameMode === "singlePlayer"){
                         element.textContent = "Score: ".concat(player1Points);
+                        
                     }
                     else if (gameMode === "twoPlayer") {
                         element.textContent = "Player 1's Score: ".concat(player1Points);
                     }
                 });
             } else {
+                if (wordArray2.includes(word.toLowerCase())) {
+                    player1Points -= calculateScore(word);
+                    document.querySelectorAll('.player1Score').forEach(element => { 
+                    element.textContent = "Player 1's Score: ".concat(player1Points);
+                    
+                    showNotification("You've got a duplicate word there, score has been canceled.");
+                    })
+                    
+                }
+                else{
                 player2Points += calculateScore(word);
                 document.querySelectorAll('.player2Score').forEach(element => {
                 if (gameMode === "twoPlayer")
@@ -286,6 +312,7 @@ function submitWord() {
                     element.textContent = "Computer's Score: ".concat(player2Points);
                 }
                 });
+            }
             }
 
             // Add valid submitted word to word list.
@@ -398,6 +425,8 @@ function showTurnEnd() {
     // Clear the submitArray
     currentWordID.clear();
     currentWordContent.clear();
+    wordArray2= [...wordArray];
+        console.log(wordArray2);
     wordArray = [];
     timerActive = false;
 
@@ -406,6 +435,8 @@ function showTurnEnd() {
         document.getElementById("endOfTurnScore").textContent = "Score: "+player1Points;
         document.getElementById("endOfTurnButton").textContent = "Player 2's Turn";
         document.getElementById("currentWord").textContent = "Current Word: ";
+
+        
 
         while (wordList.hasChildNodes()) {
             wordList.removeChild(wordList.firstChild);
@@ -439,19 +470,23 @@ function showGameEnd(){
     if (gameMode === "twoPlayer"){
         document.getElementById("endOfGameText").textContent = (player1Points === player2Points) ? "Its a tie!" : (player1Points > player2Points) ? "Player 1 Wins!" : "Player 2 Wins!";
         document.getElementById("endOfGameScore").textContent = "Scores: "+player1Points+" : "+player2Points;
+        wordArray2 = [];
     } else if (gameMode === "playerVsAI"){
         document.getElementById("endOfGameText").textContent = (player1Points === player2Points) ? "Its a tie!" : (player1Points > player2Points) ? "Player Wins!" : "Computer Wins!";
         document.getElementById("endOfGameScore").textContent = "Scores: "+player1Points+" : "+player2Points;
+        wordArray2 = [];
     } else {
         document.getElementById("endOfGameScore").textContent = "Score: "+player1Points;
+        wordArray2 = [];
     }
     const endDialog = document.getElementById("gameEndDialog");
+    wordArray2 = [];
     endDialog.showModal();
 }
 
 function resetTextBoxes(){
     document.getElementById("gridAndWordContainer").style.marginTop = "2.5%";
-
+    wordArray2 = [];
     document.getElementById("singlePlayerScore").textContent = "Score: ";
     document.getElementById("player1").textContent = "Player 1's Score: ";
     document.getElementById("player2").textContent = "Player 2's Score: ";
@@ -517,6 +552,7 @@ generateBoggleBoard(false);
 function startGame() {
     player1Points = 0;
     player2Points  = 0;
+    wordArray2 = [];
     document.getElementById("turnEndDialog").close();
     document.getElementById("gameEndDialog").close();
     clearInterval(timerInterval);
