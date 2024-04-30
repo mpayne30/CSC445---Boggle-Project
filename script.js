@@ -271,7 +271,7 @@ function showNotification(message) {
     // Hide the notification after 1 second (1000 milliseconds)
     setTimeout(() => {
         notificationBox.style.display = 'none';
-    }, 1000);
+    }, 3000);
 }
 
 
