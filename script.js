@@ -543,7 +543,7 @@ function setGameMode(gm) {
 //Implemented for demo and testing purposes
 function skipTurn() {
     timer = 1;
-    document.getElementById("skipTurnButton").disabled = true;
+
 }
 
 blockAllScoreBoxes();
