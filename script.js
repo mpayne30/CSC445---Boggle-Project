@@ -71,7 +71,7 @@ const numCols = 4;
 let gameMode;
 
 let timerInterval;
-let seconds = 20;
+let seconds = 180;
 
 const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
